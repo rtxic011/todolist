@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 
 //@Composable
 //fun Title () { val insetPadding = WindowInsets.safeDrawing.asPaddingValues()
@@ -44,25 +46,26 @@ import androidx.compose.ui.Alignment
 fun Title() {
     Scaffold (
         topBar = {
-            Column () {
+            Column ( ) {
                 Text(
-                    text = "To do list",
+                    text = "Create to do list",
                     style = TextStyle(
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
                     ),
                     modifier = Modifier
-                        .offset(y = 10.dp)
+                        .padding(top = 100.dp)
+//                        .offset(y=)
                         .fillMaxWidth()
                 )
-
                 Text(
-                    text = "갓생살자",
+                    text = "Choose your to do list color theme:",
                     style = TextStyle(
-                        fontSize = 15.sp,
+                        fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = Color.Gray
                     ),
                     modifier = Modifier
                         .offset(y = 5.dp)
@@ -89,7 +92,8 @@ fun Title() {
 //                }
             }
         }
-    ){ innerPadding ->
+    )
+    { innerPadding ->
         Column (modifier = Modifier) {
 
         }
