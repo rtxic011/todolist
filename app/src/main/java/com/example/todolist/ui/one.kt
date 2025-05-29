@@ -130,110 +130,426 @@ fun Title() {
                     )
                 }
             }
-            //큰 배경
-            Column(modifier = Modifier
+            //상자들
+            Column ( modifier = Modifier
                 .padding(innerPadding)
+                .fillMaxSize()
+//                .align(Alignment.Center)
+                .align(Alignment.TopStart)
+                .padding( 35.dp, 30.dp, 0.dp, 0.dp)
+            ) {
+                //큰 배경1
+                Column(modifier = Modifier
+//                    .padding(innerPadding)
 //            .fillMaxWidth()
 //            .fillMaxHeight()
-                .fillMaxSize()
-                .padding(0.dp, 30.dp, 0.dp, 0.dp)
-            ) {
-                //초록상자 머리
-                Box(
-                    modifier = Modifier
-                        .width(327.dp)
-                        .height(36.dp)
-//                .padding(0.dp, 30.dp, 0.dp, 0.dp)
-                        .align(Alignment.CenterHorizontally)
-//                        .align(Alignment.CenterStart)
-                        .clip(
-                            RoundedCornerShape(
-                                topStart = 10.dp,
-                                topEnd = 10.dp,
-                                bottomStart = 0.dp,
-                                bottomEnd = 0.dp
-                            )
-                        )
-                        .background(
-                            Color(red = 36, green = 161, blue = 156)
-                        )
+//                    .fillMaxSize()
+                    .padding(0.dp, 0.dp, 0.dp, 0.dp)
                 ) {
+                    //초록상자 머리
+                    Box(
+                        modifier = Modifier
+                            .width(327.dp)
+                            .height(36.dp)
+//                .padding(0.dp, 30.dp, 0.dp, 0.dp)
+                            .align(Alignment.CenterHorizontally)
+//                        .align(Alignment.CenterStart)
+                            .clip(
+                                RoundedCornerShape(
+                                    topStart = 10.dp,
+                                    topEnd = 10.dp,
+                                    bottomStart = 0.dp,
+                                    bottomEnd = 0.dp
+                                )
+                            )
+                            .background(
+                                Color(red = 36, green = 161, blue = 156)
+                            )
+                    ) {
 //                Text("")
-                    Spacer(modifier = Modifier.fillMaxSize())
-                }
-                //초록상자 몸통
-                Box(
-                    modifier = Modifier
-                        .width(327.dp)
-                        .height(68.dp)
+                        Spacer(modifier = Modifier.fillMaxSize())
+                    }
+                    //초록상자 몸통
+                    Box(
+                        modifier = Modifier
+                            .width(327.dp)
+                            .height(68.dp)
 //                .padding(0.dp, 30.dp, 0.dp, 0.dp)
-                        .align(Alignment.CenterHorizontally)
+//                            .align(Alignment.CenterHorizontally)
 //                        .align(Alignment.CenterStart)
 
-                        // shadow 제대로 적용이 안되는 중.
-                        .shadow(10.dp)
-                        .clip(
-                            RoundedCornerShape(
-                                topStart = 0.dp,
-                                topEnd = 0.dp,
-                                bottomStart = 10.dp,
-                                bottomEnd = 10.dp
+                            // shadow 제대로 적용이 안되는 중.
+                            .shadow(10.dp)
+                            .clip(
+                                RoundedCornerShape(
+                                    topStart = 0.dp,
+                                    topEnd = 0.dp,
+                                    bottomStart = 10.dp,
+                                    bottomEnd = 10.dp
+                                )
                             )
-                        )
 
-                        .background(Color.White)
+                            .background(Color.White)
 
-                ) {
+                    ) {
 //                Text("")
 //                    Spacer(modifier = Modifier.fillMaxSize())
-                    //내부요소들
-                    Row (modifier = Modifier
-                        .fillMaxSize()
-                        .padding(30.dp, 16.dp, 0.dp, 0.dp)
-                    ) {
-                        //동그라미
-                        Box(modifier = Modifier
-                            .width(34.dp)
-                            .height(34.dp)
-                            .clip(CircleShape)
-                            .padding(0.dp, 0.dp, 0.dp, 0.dp)
-                            .background(Color(red = 231, green = 236, blue = 245))
-                        )
-                    }
-                    Column (modifier = Modifier
-                        .align(Alignment.CenterStart)
+                        //내부요소들
+                        Row (modifier = Modifier
+                            .fillMaxSize()
+                            .padding(30.dp, 16.dp, 0.dp, 0.dp)
+                        ) {
+                            //동그라미
+                            Box(modifier = Modifier
+                                .width(34.dp)
+                                .height(34.dp)
+                                .clip(CircleShape)
+                                .padding(0.dp, 0.dp, 0.dp, 0.dp)
+                                .background(Color(red = 231, green = 236, blue = 245))
+                            )
+                        }
+                        Column (modifier = Modifier
+                            .align(Alignment.CenterStart)
 //                        .fillMaxSize()
 //                        .width(185.dp)
 //                        .height(31.dp)
-                        .padding(80.dp, 0.dp, 0.dp, 0.dp)
+                            .padding(80.dp, 0.dp, 0.dp, 0.dp)
+                        ) {
+                            //길다란거
+                            Box(modifier = Modifier
+                                .width(185.dp)
+                                .height(5.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .background(Color(red = 231, green = 236, blue = 245))
+                            ) {}
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Box(modifier = Modifier
+                                .width(128.dp)
+                                .height(5.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .padding(0.dp, 0.dp, 0.dp, 0.dp)
+                                .background(Color(red = 231, green = 236, blue = 245))
+                            ) {}
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Box(modifier = Modifier
+                                .width(156.dp)
+                                .height(5.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .background(Color(red = 231, green = 236, blue = 245))
+                            ) {}
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+                    //큰 배경2
+                    Column(modifier = Modifier
+//                        .padding(innerPadding)
+//                        .fillMaxSize()
+                        .padding(0.dp, 0.dp, 0.dp, 0.dp)
                     ) {
-                        //길다란거
-                        Box(modifier = Modifier
-                            .width(185.dp)
-                            .height(5.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                            .background(Color(red = 231, green = 236, blue = 245))
-                        ) {}
-                        Spacer(modifier = Modifier.height(8.dp))
+                        //검정상자 머리
+                        Box(
+                            modifier = Modifier
+                                .width(327.dp)
+                                .height(36.dp)
+    //                .padding(0.dp, 30.dp, 0.dp, 0.dp)
+                                .align(Alignment.CenterHorizontally)
+    //                        .align(Alignment.CenterStart)
+                                .clip(
+                                    RoundedCornerShape(
+                                        topStart = 10.dp,
+                                        topEnd = 10.dp,
+                                        bottomStart = 0.dp,
+                                        bottomEnd = 0.dp
+                                    )
+                                )
+                                .background(Color.Black)
+                        ) {
+    //                Text("")
+                            Spacer(modifier = Modifier.fillMaxSize())
+                        }
+                        //검정상자 몸통
+                        Box(
+                            modifier = Modifier
+                                .width(327.dp)
+                                .height(68.dp)
+    //                .padding(0.dp, 30.dp, 0.dp, 0.dp)
+                                .align(Alignment.CenterHorizontally)
+    //                        .align(Alignment.CenterStart)
 
-                        Box(modifier = Modifier
-                            .width(128.dp)
-                            .height(5.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                            .padding(0.dp, 0.dp, 0.dp, 0.dp)
-                            .background(Color(red = 231, green = 236, blue = 245))
-                        ) {}
-                        Spacer(modifier = Modifier.height(8.dp))
+                                // shadow 제대로 적용이 안되는 중.
+                                .shadow(10.dp)
+                                .clip(
+                                    RoundedCornerShape(
+                                        topStart = 0.dp,
+                                        topEnd = 0.dp,
+                                        bottomStart = 10.dp,
+                                        bottomEnd = 10.dp
+                                    )
+                                )
 
-                        Box(modifier = Modifier
-                            .width(156.dp)
-                            .height(5.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                            .background(Color(red = 231, green = 236, blue = 245))
-                        ) {}
+                                .background(Color.White)
+
+                        ) {
+    //                Text("")
+    //                    Spacer(modifier = Modifier.fillMaxSize())
+                            //내부요소들2
+                            Row (modifier = Modifier
+                                .fillMaxSize()
+                                .padding(30.dp, 16.dp, 0.dp, 0.dp)
+                            ) {
+                                //동그라미
+                                Box(modifier = Modifier
+                                    .width(34.dp)
+                                    .height(34.dp)
+                                    .clip(CircleShape)
+                                    .padding(0.dp, 0.dp, 0.dp, 0.dp)
+                                    .background(Color(red = 231, green = 236, blue = 245))
+                                )
+                            }
+                            Column (modifier = Modifier
+                                .align(Alignment.CenterStart)
+    //                        .fillMaxSize()
+    //                        .width(185.dp)
+    //                        .height(31.dp)
+                                .padding(80.dp, 0.dp, 0.dp, 0.dp)
+                            ) {
+                                //길다란거
+                                Box(modifier = Modifier
+                                    .width(185.dp)
+                                    .height(5.dp)
+                                    .clip(RoundedCornerShape(10.dp))
+                                    .background(Color(red = 231, green = 236, blue = 245))
+                                ) {}
+                                Spacer(modifier = Modifier.height(8.dp))
+
+                                Box(modifier = Modifier
+                                    .width(128.dp)
+                                    .height(5.dp)
+                                    .clip(RoundedCornerShape(10.dp))
+                                    .padding(0.dp, 0.dp, 0.dp, 0.dp)
+                                    .background(Color(red = 231, green = 236, blue = 245))
+                                ) {}
+                                Spacer(modifier = Modifier.height(8.dp))
+
+                                Box(modifier = Modifier
+                                    .width(156.dp)
+                                    .height(5.dp)
+                                    .clip(RoundedCornerShape(10.dp))
+                                    .background(Color(red = 231, green = 236, blue = 245))
+                                ) {}
+                            }
+                        }
+                    }
+
+                Spacer(modifier = Modifier.height(16.dp))
+                //큰 배경3
+                Column(modifier = Modifier
+//                        .padding(innerPadding)
+//                        .fillMaxSize()
+                    .padding(0.dp, 0.dp, 0.dp, 0.dp)
+                ) {
+                    //빨간상자 머리
+                    Box(
+                        modifier = Modifier
+                            .width(327.dp)
+                            .height(36.dp)
+                            //                .padding(0.dp, 30.dp, 0.dp, 0.dp)
+                            .align(Alignment.CenterHorizontally)
+                            //                        .align(Alignment.CenterStart)
+                            .clip(
+                                RoundedCornerShape(
+                                    topStart = 10.dp,
+                                    topEnd = 10.dp,
+                                    bottomStart = 0.dp,
+                                    bottomEnd = 0.dp
+                                )
+                            )
+                            .background(Color(red=234, green=67, blue=53))
+                    ) {
+                        //                Text("")
+                        Spacer(modifier = Modifier.fillMaxSize())
+                    }
+                    //빨간상자 몸통
+                    Box(
+                        modifier = Modifier
+                            .width(327.dp)
+                            .height(68.dp)
+                            //                .padding(0.dp, 30.dp, 0.dp, 0.dp)
+                            .align(Alignment.CenterHorizontally)
+                            //                        .align(Alignment.CenterStart)
+
+                            // shadow 제대로 적용이 안되는 중.
+                            .shadow(10.dp)
+                            .clip(
+                                RoundedCornerShape(
+                                    topStart = 0.dp,
+                                    topEnd = 0.dp,
+                                    bottomStart = 10.dp,
+                                    bottomEnd = 10.dp
+                                )
+                            )
+
+                            .background(Color.White)
+
+                    ) {
+                        //                Text("")
+                        //                    Spacer(modifier = Modifier.fillMaxSize())
+                        //내부요소들2
+                        Row (modifier = Modifier
+                            .fillMaxSize()
+                            .padding(30.dp, 16.dp, 0.dp, 0.dp)
+                        ) {
+                            //동그라미
+                            Box(modifier = Modifier
+                                .width(34.dp)
+                                .height(34.dp)
+                                .clip(CircleShape)
+                                .padding(0.dp, 0.dp, 0.dp, 0.dp)
+                                .background(Color(red = 231, green = 236, blue = 245))
+                            )
+                        }
+                        Column (modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            //                        .fillMaxSize()
+                            //                        .width(185.dp)
+                            //                        .height(31.dp)
+                            .padding(80.dp, 0.dp, 0.dp, 0.dp)
+                        ) {
+                            //길다란거
+                            Box(modifier = Modifier
+                                .width(185.dp)
+                                .height(5.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .background(Color(red = 231, green = 236, blue = 245))
+                            ) {}
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Box(modifier = Modifier
+                                .width(128.dp)
+                                .height(5.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .padding(0.dp, 0.dp, 0.dp, 0.dp)
+                                .background(Color(red = 231, green = 236, blue = 245))
+                            ) {}
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Box(modifier = Modifier
+                                .width(156.dp)
+                                .height(5.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .background(Color(red = 231, green = 236, blue = 245))
+                            ) {}
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+                //큰 배경4
+                Column(modifier = Modifier
+//                        .padding(innerPadding)
+//                        .fillMaxSize()
+                    .padding(0.dp, 0.dp, 0.dp, 0.dp)
+                ) {
+                    //파란상자 머리
+                    Box(
+                        modifier = Modifier
+                            .width(327.dp)
+                            .height(36.dp)
+                            //                .padding(0.dp, 30.dp, 0.dp, 0.dp)
+                            .align(Alignment.CenterHorizontally)
+                            //                        .align(Alignment.CenterStart)
+                            .clip(
+                                RoundedCornerShape(
+                                    topStart = 10.dp,
+                                    topEnd = 10.dp,
+                                    bottomStart = 0.dp,
+                                    bottomEnd = 0.dp
+                                )
+                            )
+                            .background(Color(red=24, green=119, blue=242))
+                    ) {
+                        //                Text("")
+                        Spacer(modifier = Modifier.fillMaxSize())
+                    }
+                    //파란상자 몸통
+                    Box(
+                        modifier = Modifier
+                            .width(327.dp)
+                            .height(68.dp)
+                            //                .padding(0.dp, 30.dp, 0.dp, 0.dp)
+                            .align(Alignment.CenterHorizontally)
+                            //                        .align(Alignment.CenterStart)
+
+                            // shadow 제대로 적용이 안되는 중.
+                            .shadow(10.dp)
+                            .clip(
+                                RoundedCornerShape(
+                                    topStart = 0.dp,
+                                    topEnd = 0.dp,
+                                    bottomStart = 10.dp,
+                                    bottomEnd = 10.dp
+                                )
+                            )
+
+                            .background(Color.White)
+
+                    ) {
+                        //                Text("")
+                        //                    Spacer(modifier = Modifier.fillMaxSize())
+                        //내부요소들2
+                        Row (modifier = Modifier
+                            .fillMaxSize()
+                            .padding(30.dp, 16.dp, 0.dp, 0.dp)
+                        ) {
+                            //동그라미
+                            Box(modifier = Modifier
+                                .width(34.dp)
+                                .height(34.dp)
+                                .clip(CircleShape)
+                                .padding(0.dp, 0.dp, 0.dp, 0.dp)
+                                .background(Color(red = 231, green = 236, blue = 245))
+                            )
+                        }
+                        Column (modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            //                        .fillMaxSize()
+                            //                        .width(185.dp)
+                            //                        .height(31.dp)
+                            .padding(80.dp, 0.dp, 0.dp, 0.dp)
+                        ) {
+                            //길다란거
+                            Box(modifier = Modifier
+                                .width(185.dp)
+                                .height(5.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .background(Color(red = 231, green = 236, blue = 245))
+                            ) {}
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Box(modifier = Modifier
+                                .width(128.dp)
+                                .height(5.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .padding(0.dp, 0.dp, 0.dp, 0.dp)
+                                .background(Color(red = 231, green = 236, blue = 245))
+                            ) {}
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Box(modifier = Modifier
+                                .width(156.dp)
+                                .height(5.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .background(Color(red = 231, green = 236, blue = 245))
+                            ) {}
+                        }
                     }
                 }
             }
+
         }
     }
 }
