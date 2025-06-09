@@ -90,9 +90,12 @@ import androidx.compose.runtime.setValue
 //    }
 //}
 
+var OpenColor = Color(36, 161, 156)
+
 @Composable
 fun hello() {
     var selectedColor by remember { mutableStateOf<Color?>(null) }
+
     Scaffold { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)
             .fillMaxWidth(),
@@ -118,11 +121,10 @@ fun hello() {
                         isSelected = (selectedColor == color),
                         onClick = { selectedColor = color }
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
+//                    Spacer(modifier = Modifier.height(16.dp))
                 }
-
-                Spacer(modifier = Modifier.height(130.dp))
-                bbb()
+            Spacer(modifier = Modifier.height(130.dp))
+            bbb(OpenColor)
         }
     }
 }
@@ -191,88 +193,112 @@ fun aaa(
     isSelected : Boolean,
     onClick: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-//            .align(Alignment.CenterHorizontally)
-//            .padding(top = 6.dp)
-//            .fillMaxWidth()
-            .clickable { onClick() },
-//        horizontalAlignment = Alignment.CenterHorizontally
+    Box(modifier = Modifier
+        .fillMaxWidth()
     ) {
-        // 머리
-        Box(
+        Column(
             modifier = Modifier
-                .width(327.dp)
-                .height(36.dp)
-                .align(Alignment.CenterHorizontally)
-                .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
-                .background(headColor)
+//            .align(Alignment.CenterHorizontally)
+                .align(Alignment.Center)
+            .padding(top = 16.dp)
+//            .fillMaxWidth()
+                .clickable { onClick() },
+//        horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (isSelected) {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_check),
-                    contentDescription = "check",
-                    tint = Color.White,
-                    modifier = Modifier
-                        .padding(start = 10.dp)
-                        .size(20.dp)
-                )
-            }
-        }
-
-        // 몸통
-        Box(
-            modifier = Modifier
-                .width(327.dp)
-                .height(68.dp)
-                .align(Alignment.CenterHorizontally)
-                .shadow(10.dp)
-                .clip(RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp))
-                .background(Color.White)
-        ) {
-            Row(
+            // 머리
+            Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(30.dp, 16.dp, 0.dp, 0.dp)
+                    .width(327.dp)
+                    .height(36.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
+                    .background(headColor)
             ) {
-                // 동그라미
-                Box(
-                    modifier = Modifier
-                        .size(34.dp)
-                        .clip(CircleShape)
-                        .background(Color(231, 236, 245))
-                )
             }
 
-            Column(
+            // 몸통
+            Box(
                 modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .padding(start = 80.dp)
+                    .width(327.dp)
+                    .height(68.dp)
+                    .shadow(10.dp)
+                    .clip(RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp))
+                    .background(Color.White),
             ) {
-                listOf(185.dp, 128.dp, 156.dp).forEach {
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(30.dp, 16.dp, 0.dp, 0.dp)
+                ) {
+                    // 동그라미
                     Box(
                         modifier = Modifier
-                            .width(it)
-                            .height(5.dp)
-                            .clip(RoundedCornerShape(10.dp))
+                            .size(34.dp)
+                            .clip(CircleShape)
                             .background(Color(231, 236, 245))
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                }
+
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .padding(start = 80.dp)
+                ) {
+                    listOf(185.dp, 128.dp, 156.dp).forEach {
+                        Box(
+                            modifier = Modifier
+                                .width(it)
+                                .height(5.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .background(Color(231, 236, 245))
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                 }
             }
         }
+            if (isSelected) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(50.dp, 5.dp, 0.dp, 0.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .width(32.dp)
+                            .height(32.dp)
+                            .clip(CircleShape)
+//                    .background(Color(red = 36, green = 161, blue = 156))
+                            .background(headColor)
+                    ) {
+
+                        Icon(
+                            painter = painterResource(id = R.drawable.icon_check),
+                            contentDescription = "check",
+                            tint = Color.White,
+                            modifier = Modifier
+//                            .padding(start = 10.dp)
+                                .align(Alignment.Center)
+                                .size(20.dp)
+                        )
+                    }
+                    OpenColor = headColor
+                }
+            }
     }
 }
 
+
 @Composable
 fun bbb(
-
+    headColor : Color
 ) {
     Box(modifier = Modifier
         .width(327.dp)
         .height(56.dp)
         .clip(RoundedCornerShape(10.dp))
-        .background(Color(36, 161, 156))
+//        .background(Color(36, 161, 156))
+        .background(headColor)
     ){
         Text(text = "Open Todyapp",
             style = TextStyle(
