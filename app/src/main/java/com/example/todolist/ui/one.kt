@@ -34,6 +34,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.res.painterResource
 import com.example.todolist.R
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+
 
 //@Composable
 //fun Title () { val insetPadding = WindowInsets.safeDrawing.asPaddingValues()
@@ -87,17 +92,37 @@ import com.example.todolist.R
 
 @Composable
 fun hello() {
-    Scaffold () { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding)) {
+    var selectedColor by remember { mutableStateOf<Color?>(null) }
+    Scaffold { innerPadding ->
+        Column(modifier = Modifier.padding(innerPadding)
+            .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally) {
                 Title()
                 Spacer(modifier = Modifier.height(15.dp))
-                aaa(headColor = Color(36, 161, 156)) // 초록상자
-                Spacer(modifier = Modifier.height(16.dp))
-                aaa(headColor = Color.Black) // 검정상자
-                Spacer(modifier = Modifier.height(16.dp))
-                aaa(headColor = Color(234, 67, 53)) // 빨강상자
-                Spacer(modifier = Modifier.height(16.dp))
-                aaa(headColor = Color(24, 119, 242)) // 파랑상자
+//                aaa(headColor = Color(36, 161, 156)) // 초록상자
+//                Spacer(modifier = Modifier.height(16.dp))
+//                aaa(headColor = Color.Black) // 검정상자
+//                Spacer(modifier = Modifier.height(16.dp))
+//                aaa(headColor = Color(234, 67, 53)) // 빨강상자
+//                Spacer(modifier = Modifier.height(16.dp))
+//                aaa(headColor = Color(24, 119, 242)) // 파랑상자
+                val colors = listOf(
+                    Color(36, 161, 156),
+                    Color.Black,
+                    Color(234, 67, 53),
+                    Color(24, 119, 242)
+                )
+                colors.forEach { color ->
+                    aaa(
+                        headColor = color,
+                        isSelected = (selectedColor == color),
+                        onClick = { selectedColor = color }
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+                Spacer(modifier = Modifier.height(130.dp))
+                bbb()
         }
     }
 }
@@ -163,15 +188,16 @@ fun Title() {
 @Composable
 fun aaa(
     headColor: Color,
-    onClick: () -> Unit = {}
+    isSelected : Boolean,
+    onClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
 //            .align(Alignment.CenterHorizontally)
 //            .padding(top = 6.dp)
-            .fillMaxWidth()
+//            .fillMaxWidth()
             .clickable { onClick() },
-        horizontalAlignment = Alignment.CenterHorizontally
+//        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // 머리
         Box(
@@ -181,7 +207,18 @@ fun aaa(
                 .align(Alignment.CenterHorizontally)
                 .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
                 .background(headColor)
-        )
+        ) {
+            if (isSelected) {
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_check),
+                    contentDescription = "check",
+                    tint = Color.White,
+                    modifier = Modifier
+                        .padding(start = 10.dp)
+                        .size(20.dp)
+                )
+            }
+        }
 
         // 몸통
         Box(
@@ -227,6 +264,27 @@ fun aaa(
     }
 }
 
+@Composable
+fun bbb(
+
+) {
+    Box(modifier = Modifier
+        .width(327.dp)
+        .height(56.dp)
+        .clip(RoundedCornerShape(10.dp))
+        .background(Color(36, 161, 156))
+    ){
+        Text(text = "Open Todyapp",
+            style = TextStyle(
+                color = Color.White,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold
+            ),
+            modifier = Modifier
+                .align(Alignment.Center)
+        )
+    }
+}
 
 
 
