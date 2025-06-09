@@ -29,7 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+import androidx.compose.foundation.layout.size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.res.painterResource
@@ -53,37 +53,86 @@ import com.example.todolist.R
 //    }
 //}
 
+////체크상자
+//Box(
+//modifier = Modifier
+//.fillMaxSize()
+////                     .padding(innerPadding)
+//) {
+//    Box(
+//        modifier = Modifier
+//            .align(Alignment.TopStart)
+//            .padding(20.dp, 165.dp, 0.dp, 0.dp)
+//    ) {
+//        Box(
+//            modifier = Modifier
+//                .width(32.dp)
+//                .height(32.dp)
+//                .clip(CircleShape)
+//                .background(Color(red = 36, green = 161, blue = 156))
+//        ) {
+//            Icon(
+//                painter = painterResource(id = R.drawable.icon_check),
+//                contentDescription = "check",
+//                tint = Color.White,
+//                modifier = Modifier
+//                    //                            .fillMaxSize()
+//                    .align(Alignment.Center)
+//                    .width(12.dp)
+//                    .height(12.dp)
+//            )
+//        }
+//    }
+//}
+
+@Composable
+fun hello() {
+    Scaffold () { innerPadding ->
+        Column(modifier = Modifier.padding(innerPadding)) {
+                Title()
+                Spacer(modifier = Modifier.height(15.dp))
+                aaa(headColor = Color(36, 161, 156)) // 초록상자
+                Spacer(modifier = Modifier.height(16.dp))
+                aaa(headColor = Color.Black) // 검정상자
+                Spacer(modifier = Modifier.height(16.dp))
+                aaa(headColor = Color(234, 67, 53)) // 빨강상자
+                Spacer(modifier = Modifier.height(16.dp))
+                aaa(headColor = Color(24, 119, 242)) // 파랑상자
+        }
+    }
+}
+
 @Composable
 fun Title() {
-    Scaffold(
-        modifier = Modifier.background(Color.White),
+//    Scaffold(
+    Column (modifier = Modifier.background(Color.White)) {
         //상자 위에 있는 글씨 2줄
-        topBar = {
-            Column() {
-                Text(
-                    text = "Create to do list",
-                    style = TextStyle(
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
-                    ),
-                    modifier = Modifier
-                        .padding(top = 100.dp)
+//        topBar = {
+        Column() {
+            Text(
+                text = "Create to do list",
+                style = TextStyle(
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                ),
+                modifier = Modifier
+                    .padding(top = 100.dp)
 //                        .offset(y=)
-                        .fillMaxWidth()
-                )
-                Text(
-                    text = "Choose your to do list color theme:",
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        textAlign = TextAlign.Center,
-                        color = Color.Gray
-                    ),
-                    modifier = Modifier
-                        .offset(y = 5.dp)
-                        .fillMaxWidth()
-                )
+                    .fillMaxWidth()
+            )
+            Text(
+                text = "Choose your to do list color theme:",
+                style = TextStyle(
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center,
+                    color = Color.Gray
+                ),
+                modifier = Modifier
+                    .offset(y = 5.dp)
+                    .fillMaxWidth()
+            )
 //                Box(modifier = Modifier
 //                    .fillMaxWidth()
 //                ) {
@@ -104,489 +153,79 @@ fun Title() {
 //                    )
 //                }
             }
-        },
-     content = { innerPadding ->
-        //상자들
-        Column(
+        }
+//        },
+//     content = { innerPadding ->
+//         }
+//    )
+}
+
+@Composable
+fun aaa(
+    headColor: Color,
+    onClick: () -> Unit = {}
+) {
+    Column(
+        modifier = Modifier
+//            .align(Alignment.CenterHorizontally)
+//            .padding(top = 6.dp)
+            .fillMaxWidth()
+            .clickable { onClick() },
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // 머리
+        Box(
             modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-//                .align(Alignment.Center)
-                .padding(35.dp, 30.dp, 0.dp, 0.dp)
+                .width(327.dp)
+                .height(36.dp)
+                .align(Alignment.CenterHorizontally)
+                .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
+                .background(headColor)
+        )
+
+        // 몸통
+        Box(
+            modifier = Modifier
+                .width(327.dp)
+                .height(68.dp)
+                .align(Alignment.CenterHorizontally)
+                .shadow(10.dp)
+                .clip(RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp))
+                .background(Color.White)
         ) {
-            //큰 배경1
-            Column(
+            Row(
                 modifier = Modifier
-//                    .padding(innerPadding)
-//            .fillMaxWidth()
-//            .fillMaxHeight()
-//                    .fillMaxSize()
-                    .padding(0.dp, 0.dp, 0.dp, 0.dp)
-                    .clickable {
-                        //체크상자1
-                        Box(modifier = Modifier
-                            .fillMaxSize()
-                        ) {
-                            Box(modifier = Modifier
-                                .align(Alignment.TopStart)
-                                .padding(20.dp, 165.dp, 0.dp, 0.dp)
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .width(32.dp)
-                                        .height(32.dp)
-                                        .clip(CircleShape)
-                                        .background(Color(red = 36, green = 161, blue = 156))
-                                ) {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.icon_check),
-                                        contentDescription = "check",
-                                        tint = Color.White,
-                                        modifier = Modifier
-//                            .fillMaxSize()
-                                            .align(Alignment.Center)
-                                            .width(12.dp)
-                                            .height(12.dp)
-                                    )
-                                }
-                            }
-                        }
-                    }
+                    .fillMaxSize()
+                    .padding(30.dp, 16.dp, 0.dp, 0.dp)
             ) {
-                //초록상자 머리
+                // 동그라미
                 Box(
                     modifier = Modifier
-                        .width(327.dp)
-                        .height(36.dp)
-//                .padding(0.dp, 30.dp, 0.dp, 0.dp)
-                        .align(Alignment.CenterHorizontally)
-//                        .align(Alignment.CenterStart)
-                        .clip(
-                            RoundedCornerShape(
-                                topStart = 10.dp,
-                                topEnd = 10.dp,
-                                bottomStart = 0.dp,
-                                bottomEnd = 0.dp
-                            )
-                        )
-                        .background(
-                            Color(red = 36, green = 161, blue = 156)
-                        )
-                ) {
-//                Text("")
-                    Spacer(modifier = Modifier.fillMaxSize())
-                }
-                //초록상자 몸통
-                Box(
-                    modifier = Modifier
-                        .width(327.dp)
-                        .height(68.dp)
-//                .padding(0.dp, 30.dp, 0.dp, 0.dp)
-//                            .align(Alignment.CenterHorizontally)
-//                        .align(Alignment.CenterStart)
-
-                        // shadow 제대로 적용이 안되는 중.
-                        .shadow(10.dp)
-                        .clip(
-                            RoundedCornerShape(
-                                topStart = 0.dp,
-                                topEnd = 0.dp,
-                                bottomStart = 10.dp,
-                                bottomEnd = 10.dp
-                            )
-                        )
-
-                        .background(Color.White)
-
-                ) {
-//                Text("")
-//                    Spacer(modifier = Modifier.fillMaxSize())
-                    //내부요소들
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(30.dp, 16.dp, 0.dp, 0.dp)
-                    ) {
-                        //동그라미
-                        Box(
-                            modifier = Modifier
-                                .width(34.dp)
-                                .height(34.dp)
-                                .clip(CircleShape)
-                                .padding(0.dp, 0.dp, 0.dp, 0.dp)
-                                .background(Color(red = 231, green = 236, blue = 245))
-                        )
-                    }
-                    Column(
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-//                        .fillMaxSize()
-//                        .width(185.dp)
-//                        .height(31.dp)
-                            .padding(80.dp, 0.dp, 0.dp, 0.dp)
-                    ) {
-                        //길다란거
-                        Box(
-                            modifier = Modifier
-                                .width(185.dp)
-                                .height(5.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(Color(red = 231, green = 236, blue = 245))
-                        ) {}
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Box(
-                            modifier = Modifier
-                                .width(128.dp)
-                                .height(5.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .padding(0.dp, 0.dp, 0.dp, 0.dp)
-                                .background(Color(red = 231, green = 236, blue = 245))
-                        ) {}
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Box(
-                            modifier = Modifier
-                                .width(156.dp)
-                                .height(5.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(Color(red = 231, green = 236, blue = 245))
-                        ) {}
-                    }
-                }
+                        .size(34.dp)
+                        .clip(CircleShape)
+                        .background(Color(231, 236, 245))
+                )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-            //큰 배경2
             Column(
                 modifier = Modifier
-//                        .padding(innerPadding)
-//                        .fillMaxSize()
-                    .padding(0.dp, 0.dp, 0.dp, 0.dp)
+                    .align(Alignment.CenterStart)
+                    .padding(start = 80.dp)
             ) {
-                //검정상자 머리
-                Box(
-                    modifier = Modifier
-                        .width(327.dp)
-                        .height(36.dp)
-//                .padding(0.dp, 30.dp, 0.dp, 0.dp)
-                        .align(Alignment.CenterHorizontally)
-//                        .align(Alignment.CenterStart)
-                        .clip(
-                            RoundedCornerShape(
-                                topStart = 10.dp,
-                                topEnd = 10.dp,
-                                bottomStart = 0.dp,
-                                bottomEnd = 0.dp
-                            )
-                        )
-                        .background(Color.Black)
-                ) {
-//                Text("")
-                    Spacer(modifier = Modifier.fillMaxSize())
-                }
-                //검정상자 몸통
-                Box(
-                    modifier = Modifier
-                        .width(327.dp)
-                        .height(68.dp)
-//                .padding(0.dp, 30.dp, 0.dp, 0.dp)
-                        .align(Alignment.CenterHorizontally)
-//                        .align(Alignment.CenterStart)
-
-                        // shadow 제대로 적용이 안되는 중.
-                        .shadow(10.dp)
-                        .clip(
-                            RoundedCornerShape(
-                                topStart = 0.dp,
-                                topEnd = 0.dp,
-                                bottomStart = 10.dp,
-                                bottomEnd = 10.dp
-                            )
-                        )
-
-                        .background(Color.White)
-
-                ) {
-//                Text("")
-//                    Spacer(modifier = Modifier.fillMaxSize())
-                    //내부요소들2
-                    Row(
+                listOf(185.dp, 128.dp, 156.dp).forEach {
+                    Box(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(30.dp, 16.dp, 0.dp, 0.dp)
-                    ) {
-                        //동그라미
-                        Box(
-                            modifier = Modifier
-                                .width(34.dp)
-                                .height(34.dp)
-                                .clip(CircleShape)
-                                .padding(0.dp, 0.dp, 0.dp, 0.dp)
-                                .background(Color(red = 231, green = 236, blue = 245))
-                        )
-                    }
-                    Column(
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-//                        .fillMaxSize()
-//                        .width(185.dp)
-//                        .height(31.dp)
-                            .padding(80.dp, 0.dp, 0.dp, 0.dp)
-                    ) {
-                        //길다란거
-                        Box(
-                            modifier = Modifier
-                                .width(185.dp)
-                                .height(5.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(Color(red = 231, green = 236, blue = 245))
-                        ) {}
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Box(
-                            modifier = Modifier
-                                .width(128.dp)
-                                .height(5.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .padding(0.dp, 0.dp, 0.dp, 0.dp)
-                                .background(Color(red = 231, green = 236, blue = 245))
-                        ) {}
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Box(
-                            modifier = Modifier
-                                .width(156.dp)
-                                .height(5.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(Color(red = 231, green = 236, blue = 245))
-                        ) {}
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-            //큰 배경3
-            Column(
-                modifier = Modifier
-//                        .padding(innerPadding)
-//                        .fillMaxSize()
-                    .padding(0.dp, 0.dp, 0.dp, 0.dp)
-            ) {
-                //빨간상자 머리
-                Box(
-                    modifier = Modifier
-                        .width(327.dp)
-                        .height(36.dp)
-                        //                .padding(0.dp, 30.dp, 0.dp, 0.dp)
-                        .align(Alignment.CenterHorizontally)
-                        //                        .align(Alignment.CenterStart)
-                        .clip(
-                            RoundedCornerShape(
-                                topStart = 10.dp,
-                                topEnd = 10.dp,
-                                bottomStart = 0.dp,
-                                bottomEnd = 0.dp
-                            )
-                        )
-                        .background(Color(red = 234, green = 67, blue = 53))
-                ) {
-                    //                Text("")
-                    Spacer(modifier = Modifier.fillMaxSize())
-                }
-                //빨간상자 몸통
-                Box(
-                    modifier = Modifier
-                        .width(327.dp)
-                        .height(68.dp)
-                        //                .padding(0.dp, 30.dp, 0.dp, 0.dp)
-                        .align(Alignment.CenterHorizontally)
-                        //                        .align(Alignment.CenterStart)
-
-                        // shadow 제대로 적용이 안되는 중.
-                        .shadow(10.dp)
-                        .clip(
-                            RoundedCornerShape(
-                                topStart = 0.dp,
-                                topEnd = 0.dp,
-                                bottomStart = 10.dp,
-                                bottomEnd = 10.dp
-                            )
-                        )
-
-                        .background(Color.White)
-
-                ) {
-                    //                Text("")
-                    //                    Spacer(modifier = Modifier.fillMaxSize())
-                    //내부요소들2
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(30.dp, 16.dp, 0.dp, 0.dp)
-                    ) {
-                        //동그라미
-                        Box(
-                            modifier = Modifier
-                                .width(34.dp)
-                                .height(34.dp)
-                                .clip(CircleShape)
-                                .padding(0.dp, 0.dp, 0.dp, 0.dp)
-                                .background(Color(red = 231, green = 236, blue = 245))
-                        )
-                    }
-                    Column(
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            //                        .fillMaxSize()
-                            //                        .width(185.dp)
-                            //                        .height(31.dp)
-                            .padding(80.dp, 0.dp, 0.dp, 0.dp)
-                    ) {
-                        //길다란거
-                        Box(
-                            modifier = Modifier
-                                .width(185.dp)
-                                .height(5.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(Color(red = 231, green = 236, blue = 245))
-                        ) {}
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Box(
-                            modifier = Modifier
-                                .width(128.dp)
-                                .height(5.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .padding(0.dp, 0.dp, 0.dp, 0.dp)
-                                .background(Color(red = 231, green = 236, blue = 245))
-                        ) {}
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Box(
-                            modifier = Modifier
-                                .width(156.dp)
-                                .height(5.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(Color(red = 231, green = 236, blue = 245))
-                        ) {}
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-            //큰 배경4
-            Column(
-                modifier = Modifier
-//                        .padding(innerPadding)
-//                        .fillMaxSize()
-                    .padding(0.dp, 0.dp, 0.dp, 0.dp)
-            ) {
-                //파란상자 머리
-                Box(
-                    modifier = Modifier
-                        .width(327.dp)
-                        .height(36.dp)
-                        //                .padding(0.dp, 30.dp, 0.dp, 0.dp)
-                        .align(Alignment.CenterHorizontally)
-                        //                        .align(Alignment.CenterStart)
-                        .clip(
-                            RoundedCornerShape(
-                                topStart = 10.dp,
-                                topEnd = 10.dp,
-                                bottomStart = 0.dp,
-                                bottomEnd = 0.dp
-                            )
-                        )
-                        .background(Color(red = 24, green = 119, blue = 242))
-                ) {
-                    //                Text("")
-                    Spacer(modifier = Modifier.fillMaxSize())
-                }
-                //파란상자 몸통
-                Box(
-                    modifier = Modifier
-                        .width(327.dp)
-                        .height(68.dp)
-                        //                .padding(0.dp, 30.dp, 0.dp, 0.dp)
-                        .align(Alignment.CenterHorizontally)
-                        //                        .align(Alignment.CenterStart)
-
-                        // shadow 제대로 적용이 안되는 중.
-                        .shadow(10.dp)
-                        .clip(
-                            RoundedCornerShape(
-                                topStart = 0.dp,
-                                topEnd = 0.dp,
-                                bottomStart = 10.dp,
-                                bottomEnd = 10.dp
-                            )
-                        )
-
-                        .background(Color.White)
-
-                ) {
-                    //                Text("")
-                    //                    Spacer(modifier = Modifier.fillMaxSize())
-                    //내부요소들2
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(30.dp, 16.dp, 0.dp, 0.dp)
-                    ) {
-                        //동그라미
-                        Box(
-                            modifier = Modifier
-                                .width(34.dp)
-                                .height(34.dp)
-                                .clip(CircleShape)
-                                .padding(0.dp, 0.dp, 0.dp, 0.dp)
-                                .background(Color(red = 231, green = 236, blue = 245))
-                        )
-                    }
-                    Column(
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            //                        .fillMaxSize()
-                            //                        .width(185.dp)
-                            //                        .height(31.dp)
-                            .padding(80.dp, 0.dp, 0.dp, 0.dp)
-                    ) {
-                        //길다란거
-                        Box(
-                            modifier = Modifier
-                                .width(185.dp)
-                                .height(5.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(Color(red = 231, green = 236, blue = 245))
-                        ) {}
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Box(
-                            modifier = Modifier
-                                .width(128.dp)
-                                .height(5.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .padding(0.dp, 0.dp, 0.dp, 0.dp)
-                                .background(Color(red = 231, green = 236, blue = 245))
-                        ) {}
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Box(
-                            modifier = Modifier
-                                .width(156.dp)
-                                .height(5.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(Color(red = 231, green = 236, blue = 245))
-                        ) {}
-                        }
-                    }
+                            .width(it)
+                            .height(5.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(Color(231, 236, 245))
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
         }
-    )
+    }
 }
-
 
 
 
@@ -594,5 +233,5 @@ fun Title() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewIntroduceMe() {
-    Title()
+    hello()
 }
