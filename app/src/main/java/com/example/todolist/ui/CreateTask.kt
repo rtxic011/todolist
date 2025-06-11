@@ -2,6 +2,7 @@ package com.example.todolist.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,10 +20,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.todolist.R
+import com.example.todolist.ui.OpenColor
 
 
 @Composable
-fun CT() {
+fun CT(color: Color) {
     Scaffold (
         //글자들
         topBar = {
@@ -40,7 +42,7 @@ fun CT() {
                             fontWeight = FontWeight.Bold
                         )
                     )
-//                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
                     Text(text = "Best platform for creating to-do lists",
                         style = TextStyle(
                             fontSize = 14.sp,
@@ -58,18 +60,21 @@ fun CT() {
 //                        .align(Alignment.Center)
 //                        .size(20.dp)
 //                )
+                //설정 아이콘
                 Icon(
                     painter = painterResource(id = R.drawable.icon_settings),
                     contentDescription = "setting",
                     tint = Color(118, 126, 140),
                     modifier = Modifier
-                        .padding(top = 2.dp, end = 2.5.dp)
+                        .padding(top = 2.dp, start = 50.dp)
 //                        .width(19.dp)
 //                        .height(20.dp)
                         .size(24.dp)
                 )
+                Spacer(modifier = Modifier.height(30.dp))
             }
         },
+        //task
         content = { innerPadding ->
             Column (
                 modifier = Modifier.padding(innerPadding)
@@ -83,5 +88,5 @@ fun CT() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewCT() {
-    CT()
+    CT(OpenColor)
 }

@@ -214,8 +214,8 @@ fun ColorBoxs(
                     .width(327.dp)
                     .height(36.dp)
                     .align(Alignment.CenterHorizontally)
-                    .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
-                    .background(headColor)
+//                    .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
+                    .background(headColor, shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
             ) {
             }
 
@@ -225,8 +225,8 @@ fun ColorBoxs(
                     .width(327.dp)
                     .height(68.dp)
                     .shadow(10.dp)
-                    .clip(RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp))
-                    .background(Color.White),
+//                    .clip(RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp))
+                    .background(Color.White, shape = RoundedCornerShape(bottomStart = 10.dp, bottomEnd = 10.dp)),
             ) {
                 Row(
                     modifier = Modifier
@@ -237,8 +237,8 @@ fun ColorBoxs(
                     Box(
                         modifier = Modifier
                             .size(34.dp)
-                            .clip(CircleShape)
-                            .background(Color(231, 236, 245))
+//                            .clip(CircleShape)
+                            .background(Color(231, 236, 245), shape = CircleShape)
                     )
                 }
 
@@ -252,8 +252,8 @@ fun ColorBoxs(
                             modifier = Modifier
                                 .width(it)
                                 .height(5.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(Color(231, 236, 245))
+//                                .clip(RoundedCornerShape(10.dp))
+                                .background(Color(231, 236, 245), shape = RoundedCornerShape(10.dp))
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                     }
@@ -270,9 +270,9 @@ fun ColorBoxs(
                         modifier = Modifier
                             .width(32.dp)
                             .height(32.dp)
-                            .clip(CircleShape)
+//                            .clip(CircleShape)
 //                    .background(Color(red = 36, green = 161, blue = 156))
-                            .background(headColor)
+                            .background(headColor, shape = CircleShape)
                     ) {
 
                         Icon(

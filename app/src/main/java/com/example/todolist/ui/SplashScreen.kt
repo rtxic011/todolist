@@ -118,8 +118,8 @@ fun FirstScreen() {
                                 Box(modifier = Modifier
                                     .width(20.dp)
                                     .height(3.dp)
-                                    .clip(RoundedCornerShape(10.dp))
-                                    .background(color = Color(red = 36, green = 161, blue = 156))
+//                                    .clip(RoundedCornerShape(10.dp))
+                                    .background(color = Color(red = 36, green = 161, blue = 156), shape = RoundedCornerShape(10.dp))
                                 )
                             }
                         }
