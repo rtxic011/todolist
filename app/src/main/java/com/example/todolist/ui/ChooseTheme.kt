@@ -1,6 +1,5 @@
 package com.example.todolist.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,18 +25,17 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.res.painterResource
 import com.example.todolist.R
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.tooling.preview.Preview
 
 
 //@Composable
@@ -92,13 +90,23 @@ import androidx.compose.runtime.setValue
 
 var OpenColor = Color(36, 161, 156)
 
+val colors = listOf(
+    Color(36, 161, 156),
+    Color.Black,
+    Color(234, 67, 53),
+    Color(24, 119, 242)
+)
+
+
 @Composable
-fun hello() {
+fun Running() {
     var selectedColor by remember { mutableStateOf<Color?>(null) }
 
-    Scaffold { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding)
-            .fillMaxWidth(),
+//    Scaffold { innerPadding ->
+        Column(modifier = Modifier
+            //.padding(innerPadding)
+//            .fillMaxWidth()
+            .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally) {
                 Title()
                 Spacer(modifier = Modifier.height(15.dp))
@@ -109,14 +117,8 @@ fun hello() {
 //                aaa(headColor = Color(234, 67, 53)) // 빨강상자
 //                Spacer(modifier = Modifier.height(16.dp))
 //                aaa(headColor = Color(24, 119, 242)) // 파랑상자
-                val colors = listOf(
-                    Color(36, 161, 156),
-                    Color.Black,
-                    Color(234, 67, 53),
-                    Color(24, 119, 242)
-                )
                 colors.forEach { color ->
-                    aaa(
+                    ColorBoxs (
                         headColor = color,
                         isSelected = (selectedColor == color),
                         onClick = { selectedColor = color }
@@ -124,10 +126,10 @@ fun hello() {
 //                    Spacer(modifier = Modifier.height(16.dp))
                 }
             Spacer(modifier = Modifier.height(130.dp))
-            bbb(OpenColor)
+            boxfordecision(OpenColor)
         }
     }
-}
+//}
 
 @Composable
 fun Title() {
@@ -157,7 +159,8 @@ fun Title() {
                     color = Color.Gray
                 ),
                 modifier = Modifier
-                    .offset(y = 5.dp)
+                    .padding(top = 5.dp)
+//                    .offset(y = 5.dp)
                     .fillMaxWidth()
             )
 //                Box(modifier = Modifier
@@ -188,7 +191,7 @@ fun Title() {
 }
 
 @Composable
-fun aaa(
+fun ColorBoxs(
     headColor: Color,
     isSelected : Boolean,
     onClick: () -> Unit
@@ -290,7 +293,7 @@ fun aaa(
 
 
 @Composable
-fun bbb(
+fun boxfordecision (
     headColor : Color
 ) {
     Box(modifier = Modifier
@@ -314,8 +317,8 @@ fun bbb(
 
 
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewIntroduceMe() {
-//    hello()
-//}
+@Preview(showBackground = true)
+@Composable
+fun PreviewTheme() {
+    Running()
+}

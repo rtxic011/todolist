@@ -13,15 +13,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.todolist.ui.theme.TodolistTheme
 import com.example.todolist.ui.Title
-import com.example.todolist.ui.aaa
-import com.example.todolist.ui.hello
+import com.example.todolist.ui.Running
+import com.example.todolist.ui.ColorBoxs
+import com.example.todolist.ui.boxfordecision
+import com.example.todolist.ui.CT
+import com.example.todolist.ui.FirstScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            hello()
+
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.example.todolist.ui
 
-import androidx.collection.ScatterSet
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,10 +23,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun Rogo() {
+fun FirstScreen() {
     Scaffold (
         containerColor = Color.Transparent,
         content = { innerPadding ->
@@ -163,5 +161,5 @@ fun Rogo() {
 //@Preview(showBackground = true)
 //@Composable
 //fun PreviewIntroduceMe() {
-//    Rogo()
+//    FirstScreen()
 //}
