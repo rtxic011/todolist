@@ -1,5 +1,6 @@
 package com.example.todolist.ui
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,12 +20,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.style.LineHeightStyle
 import com.example.todolist.R
 import com.example.todolist.ui.OpenColor
 
+var OpColor = Color(36, 161, 156)
 
 @Composable
-fun CT(color: Color) {
+fun CT(WhatColor: Color) {
     Scaffold (
         //글자들
         topBar = {
@@ -71,15 +79,77 @@ fun CT(color: Color) {
 //                        .height(20.dp)
                         .size(24.dp)
                 )
-                Spacer(modifier = Modifier.height(30.dp))
+//                Spacer(modifier = Modifier.height(30.dp))
             }
         },
         //task
         content = { innerPadding ->
-            Column (
-                modifier = Modifier.padding(innerPadding)
+            Column ( modifier = Modifier
+                .padding(innerPadding)
+                .padding(start = 24.dp, top = 30.dp)
             ){
+                Column(modifier = Modifier
+                    .width(327.dp)
+                    .height(148.dp)
+                    .shadow(8.dp, shape = RoundedCornerShape(10.dp))
+                    .background(Color.White, shape = RoundedCornerShape(10.dp))
+                ) {
+                    Box(modifier = Modifier
+                        .width(327.dp)
+                        .height(36.dp)
+//                        .align(Alignment.TopStart)
+                        .background(WhatColor, shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Box(
+                        modifier = Modifier
+                            .width(295.dp)
+                            .height(80.dp)
+                            .align(Alignment.CenterHorizontally)
+//                            .padding(top = 16.dp, start = 16.dp)
+                            .background(Color.Blue)
+                    ) {
+                        Row (modifier = Modifier
+//                            .size(28.dp)
+                            .height(28.dp)
+//                            .padding(top = )
+                        ) {
+                            Box(modifier = Modifier
+                                .size(28.dp)
+                            ) {
+                                Icon( painter = painterResource(id = R.drawable.icon_plus),
+                                    contentDescription = "plus",
+                                    modifier = Modifier
+                                        .size(23.33.dp)
+//                                    .align(Alignment.Center)
+                                        .align(Alignment.Center)
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Text(text = "Tap plus to create a new task ",
+                                style = TextStyle(
 
+                                ),
+                                modifier = Modifier
+                                    .align(Alignment.CenterVertically)
+                            )
+                        }
+                        Row (modifier = Modifier
+                            .width(295.dp)
+                            .height(20.dp)
+                            .align(Alignment.BottomCenter)
+                        ) {
+                            Text(text = "Add your task",
+                                style = TextStyle(
+                                    fontSize = 12.sp,
+                                    color = Color(red = 118, green = 126, blue = 140)
+                                )
+                            )
+                            Spacer(modifier = Modifier.width(101.dp))
+                            Text(text = "")
+                        }
+                    }
+                }
             }
         }
     )
@@ -88,5 +158,5 @@ fun CT(color: Color) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewCT() {
-    CT(OpenColor)
+    CT(OpColor)
 }
