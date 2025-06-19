@@ -22,17 +22,35 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.style.LineHeightStyle
 import com.example.todolist.R
 import com.example.todolist.ui.OpenColor
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
+
+
 
 var OpColor = Color(36, 161, 156)
 
 @Composable
 fun CT(WhatColor: Color) {
+    //ver1
+//    val today = remember {
+//        val Date = SimpleDateFormat("E dd MMM yyyy", Locale.ENGLISH)
+//        Date.format(Date())
+//    }
+    //ver2
+    val today = remember {
+        val Date = DateTimeFormatter.ofPattern("E dd MMM yyyy", Locale.ENGLISH)
+        LocalDate.now().format(Date)
+    }
     Scaffold (
         //글자들
         topBar = {
@@ -107,7 +125,7 @@ fun CT(WhatColor: Color) {
                             .height(80.dp)
                             .align(Alignment.CenterHorizontally)
 //                            .padding(top = 16.dp, start = 16.dp)
-                            .background(Color.Blue)
+//                            .background(Color.Blue)
                     ) {
                         Row (modifier = Modifier
 //                            .size(28.dp)
@@ -119,6 +137,7 @@ fun CT(WhatColor: Color) {
                             ) {
                                 Icon( painter = painterResource(id = R.drawable.icon_plus),
                                     contentDescription = "plus",
+                                    tint = WhatColor,
                                     modifier = Modifier
                                         .size(23.33.dp)
 //                                    .align(Alignment.Center)
@@ -145,8 +164,14 @@ fun CT(WhatColor: Color) {
                                     color = Color(red = 118, green = 126, blue = 140)
                                 )
                             )
-                            Spacer(modifier = Modifier.width(101.dp))
-                            Text(text = "")
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Text(text = "Today ∙ $today",
+                                style = TextStyle(
+                                    fontSize = 12.sp,
+                                    color = Color(red = 118, green = 126, blue = 140)
+                                ), modifier = Modifier
+                                    .align(Alignment.CenterEnd)
+                            )
                         }
                     }
                 }
