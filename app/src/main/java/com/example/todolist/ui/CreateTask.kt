@@ -21,6 +21,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -104,11 +107,14 @@ fun CT(WhatColor: Color) {
         content = { innerPadding ->
             Column ( modifier = Modifier
                 .padding(innerPadding)
-                .padding(start = 24.dp, top = 30.dp)
+                .fillMaxWidth()
+//                .padding(start = 24.dp, top = 30.dp)
+                .padding(top = 30.dp)
             ){
                 Column(modifier = Modifier
                     .width(327.dp)
                     .height(148.dp)
+                    .align(Alignment.CenterHorizontally)
                     .shadow(8.dp, shape = RoundedCornerShape(10.dp))
                     .background(Color.White, shape = RoundedCornerShape(10.dp))
                 ) {
@@ -162,18 +168,36 @@ fun CT(WhatColor: Color) {
                                 style = TextStyle(
                                     fontSize = 12.sp,
                                     color = Color(red = 118, green = 126, blue = 140)
-                                )
+                                ), modifier = Modifier
+                                    .align(Alignment.CenterVertically)
                             )
-                            Spacer(modifier = Modifier.width(10.dp))
+                            Spacer(modifier = Modifier.width(96.dp))
                             Text(text = "Today ∙ $today",
                                 style = TextStyle(
                                     fontSize = 12.sp,
                                     color = Color(red = 118, green = 126, blue = 140)
                                 ), modifier = Modifier
-                                    .align(Alignment.CenterEnd)
+                                    .align(Alignment.CenterVertically)
                             )
                         }
                     }
+                }
+            }
+            Box(modifier = Modifier
+//                    .width(375.dp)
+//                    .height(88.dp)
+                .fillMaxSize()
+//                    .shadow(8.dp)
+            ) {
+                Box(modifier = Modifier
+//                        .width(375.dp)
+                    .height(88.dp)
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .shadow(8.dp)
+                    .background(Color.White)
+                ) {
+
                 }
             }
         }
