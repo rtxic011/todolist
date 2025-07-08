@@ -1,10 +1,11 @@
-package com.example.todolist.ui
+package com.example.todolist.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.painterResource
 import com.example.todolist.R
 import androidx.compose.ui.Alignment
@@ -23,9 +25,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import kotlinx.coroutines.delay
 
 @Composable
-fun FirstScreen() {
+fun SplashScreen(navController: NavHostController) {
+    LaunchedEffect(Unit) {
+        delay(3000)
+        navController.navigate("Theme") {
+            popUpTo("splash") { inclusive = true }
+        }
+    }
     Scaffold (
         containerColor = Color.Transparent,
         content = { innerPadding ->
@@ -129,8 +139,9 @@ fun FirstScreen() {
                     Column (modifier = Modifier
                         .align(Alignment.CenterHorizontally)
 //                        .align(Alignment.CenterHorizontally)
-                        .width(213.dp)
-                        .height(62.dp)
+//                        .width(213.dp)
+//                        .height(62.dp)
+                        .fillMaxWidth()
                     ) {
                         Text(text = "Todyapp",
                             style = TextStyle(

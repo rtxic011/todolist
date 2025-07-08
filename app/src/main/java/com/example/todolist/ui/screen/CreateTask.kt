@@ -1,5 +1,7 @@
-package com.example.todolist.ui
+package com.example.todolist.ui.screen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,67 +21,83 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.text.style.LineHeightStyle
+import com.example.todolist.ui.theme.ColorEnum
 import com.example.todolist.R
-import com.example.todolist.ui.OpenColor
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Date
 import java.util.Locale
+import androidx.navigation.NavHostController
+import android.graphics.Color as AndroidColor
 
 
 
-var OpColor = Color(36, 161, 156)
 
+//fun String.toColor(): Color {
+//    return Color(AndroidColor.parseColor(this))
+//}
+
+val WhatColor = OpenColor
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CT(WhatColor: Color) {
-    //ver1
+fun CreateTask(navController: NavHostController) {
+//    val WhatColor = ColorEnum.Main.color.toColor()
+
+
+    //ver1s
 //    val today = remember {
 //        val Date = SimpleDateFormat("E dd MMM yyyy", Locale.ENGLISH)
 //        Date.format(Date())
 //    }
     //ver2
+
+    val Date = DateTimeFormatter.ofPattern("E dd MMM yyyy", Locale.ENGLISH)
     val today = remember {
-        val Date = DateTimeFormatter.ofPattern("E dd MMM yyyy", Locale.ENGLISH)
         LocalDate.now().format(Date)
     }
     Scaffold (
         //글자들
         topBar = {
-            Row (modifier = Modifier
-                .padding(top = 68.dp)
-                .width(327.dp)
-                .height(57.dp)
+            Box (modifier = Modifier
+//                .fillMaxSize()
+                .fillMaxWidth()
             ) {
-                Column (modifier = Modifier
-                    .padding(start = 24.dp)
+                Row(
+                    modifier = Modifier
+                        .padding(top = 68.dp)
+                        .width(327.dp)
+                        .height(57.dp)
+                        .align(Alignment.Center)
+//                        .align(Alignment.CenterVertically)
                 ) {
-                    Text( text = "Today",
-                        style = TextStyle(
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold
+                    Column(
+                        modifier = Modifier
+//                    .padding(start = 24.dp)
+                            .align(Alignment.CenterVertically)
+                    ) {
+                        Text(
+                            text = "Today",
+                            style = TextStyle(
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold
+                            )
                         )
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Text(text = "Best platform for creating to-do lists",
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            color = Color(red = 118, green = 126, blue = 140)
-                        ), modifier = Modifier
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(
+                            text = "Best platform for creating to-do lists",
+                            style = TextStyle(
+                                fontSize = 14.sp,
+                                color = Color(red = 118, green = 126, blue = 140)
+                            ), modifier = Modifier
 //                            .align(Alignment.BottomStart)
-                    )
-                }
+                        )
+                    }
 //                Icon(
 //                    painter = painterResource(id = R.drawable.icon_check),
 //                    contentDescription = "check",
@@ -89,18 +107,19 @@ fun CT(WhatColor: Color) {
 //                        .align(Alignment.Center)
 //                        .size(20.dp)
 //                )
-                //설정 아이콘
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_settings),
-                    contentDescription = "setting",
-                    tint = Color(118, 126, 140),
-                    modifier = Modifier
-                        .padding(top = 2.dp, start = 50.dp)
+                    //설정 아이콘
+                    Icon(
+                        painter = painterResource(id = R.drawable.icon_settings),
+                        contentDescription = "setting",
+                        tint = Color(118, 126, 140),
+                        modifier = Modifier
+                            .padding(top = 2.dp, start = 50.dp)
 //                        .width(19.dp)
 //                        .height(20.dp)
-                        .size(24.dp)
-                )
+                            .size(24.dp)
+                    )
 //                Spacer(modifier = Modifier.height(30.dp))
+                }
             }
         },
         //task
@@ -143,11 +162,11 @@ fun CT(WhatColor: Color) {
                             ) {
                                 Icon( painter = painterResource(id = R.drawable.icon_plus),
                                     contentDescription = "plus",
-                                    tint = WhatColor,
                                     modifier = Modifier
                                         .size(23.33.dp)
 //                                    .align(Alignment.Center)
-                                        .align(Alignment.Center)
+                                        .align(Alignment.Center),
+                                    tint = WhatColor
                                 )
                             }
                             Spacer(modifier = Modifier.width(12.dp))
@@ -159,7 +178,7 @@ fun CT(WhatColor: Color) {
                                     .align(Alignment.CenterVertically)
                             )
                         }
-                        Row (modifier = Modifier
+                        Box (modifier = Modifier
                             .width(295.dp)
                             .height(20.dp)
                             .align(Alignment.BottomCenter)
@@ -169,7 +188,8 @@ fun CT(WhatColor: Color) {
                                     fontSize = 12.sp,
                                     color = Color(red = 118, green = 126, blue = 140)
                                 ), modifier = Modifier
-                                    .align(Alignment.CenterVertically)
+//                                    .align(Alignment.CenterVertically)
+                                    .align(Alignment.CenterStart)
                             )
                             Spacer(modifier = Modifier.width(96.dp))
                             Text(text = "Today ∙ $today",
@@ -177,7 +197,8 @@ fun CT(WhatColor: Color) {
                                     fontSize = 12.sp,
                                     color = Color(red = 118, green = 126, blue = 140)
                                 ), modifier = Modifier
-                                    .align(Alignment.CenterVertically)
+                                    .align(Alignment.CenterEnd)
+//                                    .align(Alignment.CenterVertically)
                             )
                         }
                     }
@@ -204,8 +225,8 @@ fun CT(WhatColor: Color) {
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewCT() {
-    CT(OpColor)
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewCT() {
+//    ChooseTheme()
+//}

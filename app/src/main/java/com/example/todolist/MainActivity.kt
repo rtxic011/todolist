@@ -4,30 +4,58 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.todolist.ui.theme.TodolistTheme
-import com.example.todolist.ui.Title
-import com.example.todolist.ui.Running
-import com.example.todolist.ui.ColorBoxs
-import com.example.todolist.ui.boxfordecision
-import com.example.todolist.ui.CT
-import com.example.todolist.ui.FirstScreen
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.todolist.ui.screen.SplashScreen
+import com.example.todolist.ui.screen.ChooseTheme
+import com.example.todolist.ui.screen.CreateTask
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-
+//            NavigationController()
+            val navController = rememberNavController()
+            MyAppNavHost(navController)
+//            ChooseTheme()
         }
     }
 }
+
+@Composable
+fun MyAppNavHost(navController: NavHostController) {
+    NavHost(navController = navController, startDestination = "splash") {
+        composable("splash") {
+            SplashScreen(navController)
+        }
+        composable("Theme") {
+            ChooseTheme(navController)
+        }
+        composable("CreateTask") {
+            CreateTask(navController)
+        }
+    }
+}
+
+
+//@Composable
+//fun NavigationController() {
+//    val navController = rememberNavController()
+//
+//    NavHost(navController = navController, startDestination = "splash") {
+//        composable("splash") {
+//            SplashScreen(navController)
+//        }
+//        composable("home") {
+//            ChooseTheme()
+//        }
+//    }
+//}
+
 
 //@Composable
 //fun Greeting(name: String, modifier: Modifier = Modifier) {

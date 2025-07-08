@@ -1,4 +1,4 @@
-package com.example.todolist.ui
+package com.example.todolist.ui.screen
 
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.background
@@ -10,13 +10,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,7 +33,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import com.example.todolist.ui.theme.ColorEnum
 
 
 //@Composable
@@ -92,14 +91,19 @@ var OpenColor = Color(36, 161, 156)
 
 val colors = listOf(
     Color(36, 161, 156),
-    Color.Black,
+    Color(0, 0, 0),
     Color(234, 67, 53),
     Color(24, 119, 242)
 )
 
+fun OnClick (selectColor: Color) {
+    OpenColor = selectColor
+}
+
 
 @Composable
-fun Running() {
+fun ChooseTheme(navController: NavHostController) {
+
     var selectedColor by remember { mutableStateOf<Color?>(null) }
 
 //    Scaffold { innerPadding ->
@@ -126,7 +130,8 @@ fun Running() {
 //                    Spacer(modifier = Modifier.height(16.dp))
                 }
             Spacer(modifier = Modifier.height(130.dp))
-            boxfordecision(OpenColor)
+            boxfordecision(OpenColor, navController) //
+
         }
     }
 //}
@@ -284,8 +289,8 @@ fun ColorBoxs(
                                 .align(Alignment.Center)
                                 .size(20.dp)
                         )
+                        OnClick(headColor)
                     }
-                    OpenColor = headColor
                 }
             }
     }
@@ -294,7 +299,8 @@ fun ColorBoxs(
 
 @Composable
 fun boxfordecision (
-    headColor : Color
+    headColor : Color,
+    navController: NavHostController
 ) {
     Box(modifier = Modifier
         .width(327.dp)
@@ -302,6 +308,10 @@ fun boxfordecision (
         .clip(RoundedCornerShape(10.dp))
 //        .background(Color(36, 161, 156))
         .background(headColor)
+        .clickable {
+//            ColorEnum.Main.color = headColor.toString()
+            navController.navigate("CreateTask")
+        }
     ){
         Text(text = "Open Todyapp",
             style = TextStyle(
@@ -317,8 +327,8 @@ fun boxfordecision (
 
 
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewTheme() {
-    Running()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewTheme() {
+//    ChooseTheme()
+//}
