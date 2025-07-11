@@ -48,8 +48,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardActions
 import kotlinx.coroutines.launch
+import androidx.compose.ui.platform.LocalFocusManager
+
 
 
 
@@ -72,7 +78,13 @@ fun CreateTask(navController: NavHostController) {
 //        Date.format(Date())
 //    }
     //ver2
-    var text by remember { mutableStateOf("") }
+    var text1 by remember { mutableStateOf("") }
+    var text2 by remember { mutableStateOf("") }
+
+    val focusManager = LocalFocusManager.current
+
+    val focus1 = remember { FocusRequester() }
+    val focus2 = remember { FocusRequester() }
 
     val Date = DateTimeFormatter.ofPattern("E dd MMM yyyy", Locale.ENGLISH)
     val today = remember {
@@ -87,28 +99,83 @@ fun CreateTask(navController: NavHostController) {
             Column(
                 modifier = Modifier
                     .padding(16.dp)
+                    .height(150.dp)
                     .fillMaxWidth()
             ) {
                 BasicTextField(
-                    value = text,
-                    onValueChange = { text = it },
+                    value = text1,
+                    onValueChange = { text1 = it },
+                    textStyle = TextStyle(fontSize = 16.sp, color = Color.Black),
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 24.dp),
+//                        .fillMaxSize()
+                        .height(20.dp)
+                        .padding(start = 24.dp)
+                        .focusRequester(focus1),
+//                        .onKeyEvent{ keyEvent->
+//                            if (keyEvent.type == KeyEventType.KeyUp && keyEvent.key == Key.Enter) {
+//                                focus2.requestFocus()
+//                                true
+//                            } else {
+//                                false
+//                            }
+//                        },
+
                     decorationBox = { innerTextFidel ->
-                        Row ( modifier = Modifier
-//                            .fillMaxSize()
-                            .width(327.dp)
-//                            .height()
-                        ){
-                            Box(modifier = Modifier
-                                .fillMaxWidth()
-                                .height(20.dp)
-                            ){
-                                if (text.isEmpty()) {
-                                    Text("eg : Meeting with client", color = Color)
-                                }
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+//                                .height(20.dp)
+                        ) {
+                            if (text1.isEmpty()) {
+                                Text(
+                                    text = "eg : Meeting with client",
+                                    style = TextStyle(
+                                        color = Color.LightGray,
+                                        fontSize = 16.sp
+                                    )
+                                )
                             }
+                            innerTextFidel()
+                        }
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                BasicTextField(
+                    value = text2,
+                    onValueChange = { text2 = it },
+                    textStyle = TextStyle(fontSize = 16.sp, color = Color.Black),
+                    modifier = Modifier
+//                        .fillMaxSize()
+                        .height(20.dp)
+                    .padding(start = 24.dp)
+                        .focusRequester(focus2),
+
+//                        .onKeyEvent{ keyEvent->
+//                            if (keyEvent.type == KeyEventType.KeyUp && keyEvent.key == Key.Enter) {
+//                                focusManager.clearFocus()
+//                                true
+//                            } else {
+//                                false
+//                            }
+//                        },
+
+                    decorationBox = { innerTextFidel ->
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                        ) {
+                            if (text2.isEmpty()) {
+                                Text(
+                                    text = "Description",
+                                    style = TextStyle(
+                                        color = Color.LightGray,
+                                        fontSize = 16.sp
+                                    )
+                                )
+                            }
+                            innerTextFidel()
                         }
                     }
                 )
