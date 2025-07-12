@@ -27,8 +27,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.shadow
@@ -51,8 +49,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardOptions
-import androidx.compose.ui.text.input.KeyboardActions
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+
 import kotlinx.coroutines.launch
 import androidx.compose.ui.platform.LocalFocusManager
 
@@ -119,7 +118,13 @@ fun CreateTask(navController: NavHostController) {
 //                                false
 //                            }
 //                        },
-
+                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                        keyboardActions = KeyboardActions(
+                            onNext = {
+                                focus2.requestFocus()
+                            }
+                        ),
+                    singleLine = true,
                     decorationBox = { innerTextFidel ->
                         Box(
                             modifier = Modifier
@@ -150,8 +155,8 @@ fun CreateTask(navController: NavHostController) {
 //                        .fillMaxSize()
                         .height(20.dp)
                     .padding(start = 24.dp)
-                        .focusRequester(focus2),
 
+                        .focusRequester(focus2),
 //                        .onKeyEvent{ keyEvent->
 //                            if (keyEvent.type == KeyEventType.KeyUp && keyEvent.key == Key.Enter) {
 //                                focusManager.clearFocus()
@@ -160,7 +165,13 @@ fun CreateTask(navController: NavHostController) {
 //                                false
 //                            }
 //                        },
-
+                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            focusManager.clearFocus()
+                        }
+                    ),
+                    singleLine = true,
                     decorationBox = { innerTextFidel ->
                         Box(
                             modifier = Modifier
