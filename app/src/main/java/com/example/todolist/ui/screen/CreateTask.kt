@@ -28,7 +28,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.shadow
 import com.example.todolist.ui.theme.ColorEnum
 import com.example.todolist.R
@@ -51,6 +50,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.Alignment
 
 import kotlinx.coroutines.launch
 import androidx.compose.ui.platform.LocalFocusManager
@@ -97,7 +97,7 @@ fun CreateTask(navController: NavHostController) {
         sheetContent = {
             Column(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(top = 20.dp)
                     .height(150.dp)
                     .fillMaxWidth()
             ) {
@@ -190,6 +190,71 @@ fun CreateTask(navController: NavHostController) {
                         }
                     }
                 )
+                Spacer(modifier = Modifier.height(20.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+//                        .align(Alignment.CenterVertically)
+                ) {
+                    Row ( modifier = Modifier
+                        .align(Alignment.CenterStart)
+                    ){
+                        Spacer(modifier = Modifier.width(24.dp))
+                        Icon(painter = painterResource(id = R.drawable.icon_folder),
+                            contentDescription = null,
+                            tint = Color.LightGray,
+                            modifier = Modifier
+                                .size(20.dp) )
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Icon(painter = painterResource(id = R.drawable.icon_calendar),
+                            contentDescription = null,
+                            tint = Color.LightGray,
+                            modifier = Modifier
+                                .size(20.dp) )
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Icon(painter = painterResource(id = R.drawable.icon_clock),
+                            contentDescription = null,
+                            tint = Color.LightGray,
+                            modifier = Modifier
+                                .size(20.dp) )
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Icon(painter = painterResource(id = R.drawable.icon_flag),
+                            contentDescription = null,
+                            tint = Color.LightGray,
+                            modifier = Modifier
+                                .size(20.dp) )
+//                        Spacer(modifier = Modifier.width(175.dp))
+//                        Icon(painter = painterResource(id = R.drawable.icon_plane),
+//                            contentDescription = null,
+//                            tint = WhatColor,
+//                            modifier = Modifier
+//                                .size(20.dp)
+////                                .align(Alignment.CenterEnd)
+//                        )
+//                        Spacer(modifier = Modifier.width(24.dp))
+                    }
+                    Row ( modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                    ){
+                        Icon(painter = painterResource(id = R.drawable.icon_plane),
+                            contentDescription = null,
+                            tint = WhatColor,
+                            modifier = Modifier
+                                .size(20.dp)
+//                                .align(Alignment.CenterEnd)
+                       )
+                        Spacer(modifier = Modifier.width(24.dp) )
+                    }
+//                    Icon(painter = painterResource(id = R.drawable.icon_plane),
+//                        contentDescription = null,
+//                        tint = WhatColor,
+//                        modifier = Modifier
+//                            .size(20.dp)
+//                                .align(Alignment.CenterEnd)
+//                    )
+//                    Spacer(modifier = Modifier.width(24.dp).align(Alignment.CenterEnd))
+//                    Spacer(modifier = Modifier.width(16.dp).align(Alignment.CenterEnd))
+                }
             }
         }
     ) {
