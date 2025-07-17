@@ -1,6 +1,7 @@
 package com.example.todolist.ui.screen
 
 import android.os.Build
+import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -50,15 +51,19 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.IconButton
 import androidx.compose.ui.Alignment
 
 import kotlinx.coroutines.launch
 import androidx.compose.ui.platform.LocalFocusManager
 
 
+// .clickable { coroutineScope.launch { bottomSheetState.show() } }
 
+//@Composable
+fun dateClicked () {
 
-
+}
 
 //fun String.toColor(): Color {
 //    return Color(AndroidColor.parseColor(this))
@@ -68,6 +73,7 @@ val WhatColor = OpenColor
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CreateTask(navController: NavHostController) {
+    BackHandler(enabled = true) {}
 //    val WhatColor = ColorEnum.Main.color.toColor()
 
 
@@ -91,6 +97,11 @@ fun CreateTask(navController: NavHostController) {
     }
     val coroutineScope = rememberCoroutineScope()
     val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+    var datecolorState by remember { mutableStateOf(Color.LightGray) }
+    var selectedDate by remember { mutableStateOf<Long?>(null) }
+    var showDatePicker by remember { mutableStateOf(false) }
+
+    val dateSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
     ModalBottomSheetLayout(
         sheetState = bottomSheetState,
@@ -191,8 +202,7 @@ fun CreateTask(navController: NavHostController) {
                     }
                 )
                 Spacer(modifier = Modifier.height(20.dp))
-                Box(
-                    modifier = Modifier
+                Box( modifier = Modifier
                         .fillMaxWidth()
 //                        .align(Alignment.CenterVertically)
                 ) {
@@ -200,17 +210,21 @@ fun CreateTask(navController: NavHostController) {
                         .align(Alignment.CenterStart)
                     ){
                         Spacer(modifier = Modifier.width(24.dp))
-                        Icon(painter = painterResource(id = R.drawable.icon_folder),
-                            contentDescription = null,
-                            tint = Color.LightGray,
-                            modifier = Modifier
-                                .size(20.dp) )
+                        IconButton(onClick = { showDatePicker = true}) {
+                            Icon(painter = painterResource(id = R.drawable.icon_folder),
+                                contentDescription = null,
+                                tint = Color.LightGray,
+                                modifier = Modifier
+                                    .size(20.dp) )
+                        }
                         Spacer(modifier = Modifier.width(16.dp))
                         Icon(painter = painterResource(id = R.drawable.icon_calendar),
                             contentDescription = null,
-                            tint = Color.LightGray,
+                            tint = datecolorState,
                             modifier = Modifier
-                                .size(20.dp) )
+                                .size(20.dp)
+                                .clickable { dateClicked() }
+                        )
                         Spacer(modifier = Modifier.width(16.dp))
                         Icon(painter = painterResource(id = R.drawable.icon_clock),
                             contentDescription = null,
