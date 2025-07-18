@@ -52,18 +52,148 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.IconButton
-import androidx.compose.ui.Alignment
-
+import androidx.compose.material.TextButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.rememberDatePickerState
+//import androidx.compose.ui.Alignment
+import java.text.SimpleDateFormat
+import java.util.Date
 import kotlinx.coroutines.launch
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.material3.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
+import java.time.DayOfWeek
+import java.time.ZoneId
+import java.time.temporal.TemporalAdjusters
 
 
 // .clickable { coroutineScope.launch { bottomSheetState.show() } }
 
-//@Composable
-fun dateClicked () {
+//fun convertMillisToDate(millis: Long): String {
+//    val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+//    return formatter.format(Date(millis))
+//}
 
+@Composable
+fun QuickDatePicker(onQuickSelect: (Long) -> Unit) {
+    val today = LocalDate.now()
+    val formatter = DateTimeFormatter.ofPattern("d MMM yyyy")
+
+    val options = listOf(
+        "Today" to today,
+        "Tomorrow" to today.plusDays(1),
+        "This weekend" to today.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)),
+        "Next weekend" to today.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)).plusWeeks(1),
+    )
+
+    Column(Modifier.padding(horizontal = 16.dp)) {
+        options.forEach { (label, date) ->
+//            val dateStr = date.format(formatter)
+            val dateStr = when (label) {
+                "Tomorrow", "This weekend" -> "EEE"
+                else -> date.format(fullDateFormatter)
+            }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onQuickSelect(date.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()) }
+                    .padding(vertical = 12.dp)
+            ) {
+                Icon(
+                    imageVector = when (label) {
+                        "Today" -> ImageVector.vectorResource(id =R.drawable.icon_sun)
+                        "Tomorrow" -> ImageVector.vectorResource(id =R.drawable.icon_cloud)
+                        "This weekend" -> ImageVector.vectorResource(id =R.drawable.icon_thisweekend)
+                        "Next weekend" -> ImageVector.vectorResource(id =R.drawable.icon_nextweekend)
+                        else -> ImageVector.vectorResource(id =R.drawable.icon_sun)
+                    },
+                    contentDescription = null
+                )
+                Spacer(Modifier.width(12.dp))
+                Text(label, modifier = Modifier.weight(1f))
+//                Tve file: EB%93%9C/To-do-list/app/src/main/java/com/example/todolist/ui/screen/CreateTask.kt:137:9 Unresolved reference 'QuichDatePicker'.
+                Text(dateStr, color = Color.Gray)
+            }
+        }
+    }
 }
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DatePickerModal (
+    onDismiss: () -> Unit,
+    onDateSelected: (Long?) -> Unit
+    ) {
+    val dataPickerState = rememberDatePickerState()
+    val scope = rememberCoroutineScope()
+    var showDatePicker = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = showDatePicker,
+        dragHandle = { BottomSheetDefaults.DragHandle() }
+    ) {
+        QuickDatePicker( onQuickSelect = { millis ->
+            onDateSelected(millis)
+            onDismiss()
+        } )
+        Spacer(Modifier.height(24.dp))
+        DatePicker(state = dataPickerState)
+        Spacer(modifier = Modifier .height(13.dp))
+        Row ( modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+        ) {
+            Row (modifier = Modifier
+                .width(155.5.dp)
+                .height(56.dp)
+                .background(Color.LightGray, shape = RoundedCornerShape(10.dp))
+            ) {
+                Text(text = "Add Time",
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        color = WhatColor
+                    ) )
+//                    modifier = Modifier .align(Alignment.CenterVertically))
+            }
+        }
+    }
+}
+//            (
+//    onDateSelected: (Long?) -> Unit,
+//    onDismiss: () -> Unit
+//) {
+//    val state = rememberDatePickerState()
+//
+//    DatePickerDialog(
+//        onDismissRequest = onDismiss,
+//        confirmButton = {
+//            TextButton(
+//                onClick = {
+//                    onDateSelected(state.selectedDateMillis)
+//                    onDismiss()
+//                }
+//            ) {
+//                Text("OK")
+//            }
+//        },
+//            dismissButton = {
+//                TextButton(onClick = onDismiss) {
+//                    Text("Cancel")
+//                }
+//            }
+//    ) {
+//        DatePicker(state = state)
+//    }
+//}
 
 //fun String.toColor(): Color {
 //    return Color(AndroidColor.parseColor(this))
@@ -210,33 +340,37 @@ fun CreateTask(navController: NavHostController) {
                         .align(Alignment.CenterStart)
                     ){
                         Spacer(modifier = Modifier.width(24.dp))
-                        IconButton(onClick = { showDatePicker = true}) {
-                            Icon(painter = painterResource(id = R.drawable.icon_folder),
-                                contentDescription = null,
-                                tint = Color.LightGray,
-                                modifier = Modifier
-                                    .size(20.dp) )
-                        }
+                        Icon(painter = painterResource(id = R.drawable.icon_folder),
+                            contentDescription = null,
+                            tint = Color.LightGray,
+                            modifier = Modifier
+                                .size(20.dp)
+                                .align(Alignment.CenterVertically)
+                        )
                         Spacer(modifier = Modifier.width(16.dp))
                         Icon(painter = painterResource(id = R.drawable.icon_calendar),
                             contentDescription = null,
                             tint = datecolorState,
                             modifier = Modifier
                                 .size(20.dp)
-                                .clickable { dateClicked() }
+                                .align(Alignment.CenterVertically)
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         Icon(painter = painterResource(id = R.drawable.icon_clock),
                             contentDescription = null,
                             tint = Color.LightGray,
                             modifier = Modifier
-                                .size(20.dp) )
+                                .size(20.dp)
+                                .align(Alignment.CenterVertically)
+                        )
                         Spacer(modifier = Modifier.width(16.dp))
                         Icon(painter = painterResource(id = R.drawable.icon_flag),
                             contentDescription = null,
                             tint = Color.LightGray,
                             modifier = Modifier
-                                .size(20.dp) )
+                                .size(20.dp)
+                                .align(Alignment.CenterVertically)
+                        )
 //                        Spacer(modifier = Modifier.width(175.dp))
 //                        Icon(painter = painterResource(id = R.drawable.icon_plane),
 //                            contentDescription = null,
@@ -249,14 +383,23 @@ fun CreateTask(navController: NavHostController) {
                     }
                     Row ( modifier = Modifier
                         .align(Alignment.CenterEnd)
-                    ){
+                    ){  IconButton(onClick = {showDatePicker = true},
+                        modifier = Modifier .size(24.dp)) {
                         Icon(painter = painterResource(id = R.drawable.icon_plane),
                             contentDescription = null,
                             tint = WhatColor,
                             modifier = Modifier
                                 .size(20.dp)
 //                                .align(Alignment.CenterEnd)
-                       )
+                                .align(Alignment.CenterVertically)
+                        )
+                        if (showDatePicker) {
+                            DatePickerModal(
+                                onDateSelected = { selectedDate = it },
+                                onDismiss = { showDatePicker = false }
+                            )
+                        }
+                    }
                         Spacer(modifier = Modifier.width(24.dp) )
                     }
 //                    Icon(painter = painterResource(id = R.drawable.icon_plane),
@@ -455,6 +598,10 @@ fun CreateTask(navController: NavHostController) {
     }
 }
 
+@Composable
+fun DatePickerModal() {
+    TODO("Not yet implemented")
+}
 
 
 ////추가 바
