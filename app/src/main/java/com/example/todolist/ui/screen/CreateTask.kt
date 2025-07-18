@@ -87,6 +87,8 @@ import com.example.todolist.ui.theme.TaskViewModel
 
 
 
+
+
 data class Taskinfo(
     var title: String,
     var description: String,
@@ -100,7 +102,7 @@ data class Taskinfo(
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun TaskCard(task: Taskinfo, whatColor: Color) { // whatColor를 그대로 유지했습니다.
+fun TaskCard(task: Taskinfo, whatColor: Color) {
     val dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy", Locale.getDefault())
     val timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.getDefault())
 
@@ -175,7 +177,7 @@ fun QuickDatePicker(onQuickSelect: (Long) -> Unit) {
     val options = listOf(
         "Today" to today,
         "Tomorrow" to today.plusDays(1),
-        "This weekend" to today.plusWeeks(1),
+        "This weekend" to today.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)),
         "Next weekend" to today.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)).plusWeeks(1),
     )
 
@@ -222,7 +224,8 @@ fun QuickDatePicker(onQuickSelect: (Long) -> Unit) {
 @Composable
 fun DatePickerModal (
     onDismiss: () -> Unit,
-    onDateSelected: (Long?) -> Unit
+    onDateSelected: (Long?) -> Unit,
+    taskViewModel: TaskViewModel = viewModel()
     ) {
     val dataPickerState = rememberDatePickerState()
 //    val scope = rememberCoroutineScope()
@@ -235,6 +238,8 @@ fun DatePickerModal (
 
 //    var wantTimestate = remember { mutableStateOf<LocalTime?>(null) }
     var wantTimestate by remember { mutableStateOf(false) }
+
+    val coroutineScope = rememberCoroutineScope()
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -331,6 +336,7 @@ fun DatePickerModal (
                     { _, hourOfDay, minute ->
                         val time = LocalTime.of(hourOfDay, minute)
                         showTimePicker = false
+//                        taskViewModel.updateNewSelectedTime(time)
                         whatTime = time.format(DateTimeFormatter.ofPattern("HH:mm"))
                     },
                     calendar.get(Calendar.HOUR_OF_DAY),
@@ -340,10 +346,13 @@ fun DatePickerModal (
             }
             if ( whatTime != "Add Time" && dataPickerState != null && timepickerState != null ) {
                 val dateTime = whatTime
-                whatTime = "Add Time"
                 val millis = dataPickerState
 //                onReschedule()
+                whatTime = "Add Time"
 
+                taskViewModel.addTask()
+
+//                coroutineScope.launch { bottomSheetState.hide() }
             }
 
         }
@@ -385,7 +394,7 @@ val WhatColor = OpenColor
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CreateTask(navController: NavHostController, taskViewModel: TaskViewModel = viewModel()) {
-    BackHandler(enabled = true) {}
+//    BackHandler(enabled = true) {}
 //    val WhatColor = ColorEnum.Main.color.toColor()
 
 
@@ -403,12 +412,15 @@ fun CreateTask(navController: NavHostController, taskViewModel: TaskViewModel = 
     val focus1 = remember { FocusRequester() }
     val focus2 = remember { FocusRequester() }
 
+    val coroutineScope = rememberCoroutineScope()
+    val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+
     val Date = DateTimeFormatter.ofPattern("E dd MMM yyyy", Locale.ENGLISH)
     val today = remember {
         LocalDate.now().format(Date)
     }
-    val coroutineScope = rememberCoroutineScope()
-    val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+//    val coroutineScope = rememberCoroutineScope()
+//    val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     var datecolorState by remember { mutableStateOf(Color.LightGray) }
     var selectedDate by remember { mutableStateOf<Long?>(null) }
     var showDatePicker by remember { mutableStateOf(false) }
@@ -416,6 +428,8 @@ fun CreateTask(navController: NavHostController, taskViewModel: TaskViewModel = 
     var selectedDatetime = taskViewModel.newSelectedDateMillis
 
 //    val dateSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+
+
 
     ModalBottomSheetLayout(
         sheetState = bottomSheetState,
@@ -427,8 +441,8 @@ fun CreateTask(navController: NavHostController, taskViewModel: TaskViewModel = 
                     .fillMaxWidth()
             ) {
                 BasicTextField(
-                    value = text1,
-                    onValueChange = { text1 = it },
+                    value = taskViewModel.newTaskTitle,
+                    onValueChange = { taskViewModel.updateNewTaskTitle(it) },
                     textStyle = TextStyle(fontSize = 16.sp, color = Color.Black),
                     modifier = Modifier
 //                        .fillMaxSize()
@@ -456,7 +470,7 @@ fun CreateTask(navController: NavHostController, taskViewModel: TaskViewModel = 
                                 .fillMaxSize()
 //                                .height(20.dp)
                         ) {
-                            if (text1.isEmpty()) {
+                            if (taskViewModel.newTaskTitle.isEmpty()) {
                                 Text(
                                     text = "eg : Meeting with client",
                                     style = TextStyle(
@@ -473,8 +487,8 @@ fun CreateTask(navController: NavHostController, taskViewModel: TaskViewModel = 
                 Spacer(modifier = Modifier.height(20.dp))
 
                 BasicTextField(
-                    value = text2,
-                    onValueChange = { text2 = it },
+                    value = taskViewModel.newTaskDescription,
+                    onValueChange = { taskViewModel.updateNewTaskDescription(it) },
                     textStyle = TextStyle(fontSize = 16.sp, color = Color.Black),
                     modifier = Modifier
 //                        .fillMaxSize()
@@ -502,7 +516,7 @@ fun CreateTask(navController: NavHostController, taskViewModel: TaskViewModel = 
                             modifier = Modifier
                                 .fillMaxSize()
                         ) {
-                            if (text2.isEmpty()) {
+                            if (taskViewModel.newTaskDescription.isEmpty()) {
                                 Text(
                                     text = "Description",
                                     style = TextStyle(
@@ -579,7 +593,7 @@ fun CreateTask(navController: NavHostController, taskViewModel: TaskViewModel = 
                         )
                         if (showDatePicker) {
                             DatePickerModal(
-                                onDateSelected = { selectedDate = it },
+                                onDateSelected = { taskViewModel.updateNewSelectedDateMillis(it) },
                                 onDismiss = { showDatePicker = false }
                             )
                         }
@@ -789,7 +803,7 @@ fun CreateTask(navController: NavHostController, taskViewModel: TaskViewModel = 
 }
 
 
-@Composable
-fun DatePickerModal() {
-    TODO("Not yet implemented")
-}
+//@Composable
+//fun DatePickerModal() {
+//    TODO("Not yet implemented")
+//}
