@@ -1,5 +1,6 @@
 package com.example.todolist.ui.screen
 
+//import android.app.TimePickerDialog
 import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
@@ -71,6 +72,92 @@ import androidx.compose.ui.res.vectorResource
 import java.time.DayOfWeek
 import java.time.ZoneId
 import java.time.temporal.TemporalAdjusters
+import android.app.TimePickerDialog
+import android.content.Context
+import androidx.compose.material.Button
+//import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
+import java.time.LocalTime
+import java.util.Calendar
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.todolist.ui.theme.TaskViewModel
+
+
+
+data class Taskinfo(
+    var title: String,
+    var description: String,
+    var dueTime: Long?,
+    var dueMillis: Long?,
+    var done: Boolean = false
+)
+//var taskList =remember { mutableStateListOf<Taskinfo>() }
+
+
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun TaskCard(task: Taskinfo, whatColor: Color) { // whatColor를 그대로 유지했습니다.
+    val dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy", Locale.getDefault())
+    val timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.getDefault())
+
+    val dueDateString = task.dueMillis?.let { millis ->
+        LocalDate.ofEpochDay(millis / (1000 * 60 * 60 * 24)).format(dateFormatter)
+    } ?: "날짜 미정"
+
+    val dueTimeString = task.dueTime?.let { millis ->
+        java.time.Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).toLocalTime().format(timeFormatter)
+    } ?: "시간 미정"
+
+    Column(
+        modifier = Modifier
+            .width(327.dp)
+            .height(148.dp)
+            .shadow(8.dp, shape = RoundedCornerShape(10.dp))
+            .background(Color.White, shape = RoundedCornerShape(10.dp))
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(36.dp)
+                .background(whatColor, shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+            Text(text = task.title, fontWeight = FontWeight.Bold) // title은 이제 null이 아님
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = task.description)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "기한: $dueDateString", // 실제 날짜 표시
+                style = TextStyle(fontSize = 12.sp, color = Color.Gray),
+            )
+            Text(
+                text = "시간: $dueTimeString", // 실제 시간 표시
+                style = TextStyle(fontSize = 12.sp, color = Color.Gray),
+            )
+        }
+    }
+}
+
+
+
+
+
+//@Composable
+//fun onReschedule() {
+//
+////    taskList.add(
+////        Task(
+////            title = "새로운 할 일",
+////            dueTimeMillis = dateTimeMillis,
+////            done = false
+////        )
+////    )
+//}
 
 
 // .clickable { coroutineScope.launch { bottomSheetState.show() } }
@@ -83,7 +170,7 @@ import java.time.temporal.TemporalAdjusters
 @Composable
 fun QuickDatePicker(onQuickSelect: (Long) -> Unit) {
     val today = LocalDate.now()
-    val formatter = DateTimeFormatter.ofPattern("d MMM yyyy")
+//    var formatter = DateTimeFormatter.ofPattern("d MMM yyyy")
 
     val options = listOf(
         "Today" to today,
@@ -142,6 +229,13 @@ fun DatePickerModal (
     var showDatePicker = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
+    var timepickerState = remember { mutableStateOf<LocalTime?>(null) }
+    var whatTime = "Add Time"
+    var showTimePicker by remember { mutableStateOf(false) }
+
+//    var wantTimestate = remember { mutableStateOf<LocalTime?>(null) }
+    var wantTimestate by remember { mutableStateOf(false) }
+
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = showDatePicker,
@@ -160,7 +254,8 @@ fun DatePickerModal (
             .align(Alignment.CenterHorizontally)
             .padding(start = 35.dp, end = 35.dp )
         ) {
-            Box (modifier = Modifier
+            Box(
+                modifier = Modifier
                 .width(155.5.dp)
                 .height(56.dp)
                 .background(Color(red = 227, green = 227, blue = 227, alpha = 255), shape = RoundedCornerShape(10.dp))
@@ -168,6 +263,7 @@ fun DatePickerModal (
 //                .align(Alignment.CenterStart)
                 .padding(start = 10.dp, end = 15.dp)
 //                .align(Alignment.Center)
+                    .clickable{ showTimePicker = true }
             ) {
                 Row(
                     modifier = Modifier
@@ -182,7 +278,7 @@ fun DatePickerModal (
 
                     )
                     Spacer(modifier = Modifier.width(3.dp))
-                    Text(text = "Add Time",
+                    Text(text = whatTime,
                         style = TextStyle(
                             fontSize = 19.sp,
                             color = WhatColor,
@@ -193,16 +289,19 @@ fun DatePickerModal (
                 }
             }
             Spacer(modifier = Modifier.width(16.dp))
-            Button ( onClick = { showTimePicker = true },
+//            Button( onClick = { showTimePicker = true },
+            Box (
                 modifier = Modifier
                     .width(155.5.dp)
                     .height(56.dp)
                     .background(WhatColor, shape = RoundedCornerShape(10.dp))
                     .align(Alignment.CenterEnd)
-                    .padding(start = 10.dp, end = 15.dp)
+                    .padding(start = 10.dp, end = 10.dp)
+                    .clickable{ wantTimestate = true }
             ) {
                 Row(
                     modifier = Modifier
+//                        .align(Alignment.CenterHorizontally)
                         .align(Alignment.Center)
                 ) {
                     Icon(painter = painterResource(id = R.drawable.icon_timer),
@@ -223,6 +322,30 @@ fun DatePickerModal (
                     )
                 }
             }
+            if (showTimePicker) {
+                val context = LocalContext.current
+                val calendar = Calendar.getInstance()
+
+                TimePickerDialog(
+                    context,
+                    { _, hourOfDay, minute ->
+                        val time = LocalTime.of(hourOfDay, minute)
+                        showTimePicker = false
+                        whatTime = time.format(DateTimeFormatter.ofPattern("HH:mm"))
+                    },
+                    calendar.get(Calendar.HOUR_OF_DAY),
+                    calendar.get(Calendar.MINUTE),
+                    false
+                ).show()
+            }
+            if ( whatTime != "Add Time" && dataPickerState != null && timepickerState != null ) {
+                val dateTime = whatTime
+                whatTime = "Add Time"
+                val millis = dataPickerState
+//                onReschedule()
+
+            }
+
         }
     }
 }
@@ -261,7 +384,7 @@ fun DatePickerModal (
 val WhatColor = OpenColor
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CreateTask(navController: NavHostController) {
+fun CreateTask(navController: NavHostController, taskViewModel: TaskViewModel = viewModel()) {
     BackHandler(enabled = true) {}
 //    val WhatColor = ColorEnum.Main.color.toColor()
 
@@ -290,10 +413,9 @@ fun CreateTask(navController: NavHostController) {
     var selectedDate by remember { mutableStateOf<Long?>(null) }
     var showDatePicker by remember { mutableStateOf(false) }
 
-    var selectedTime by remember { mutableStateOf<LocalTime?>(null) }
-    var showTimePicker by remember { mutableStateOf(false) }
+    var selectedDatetime = taskViewModel.newSelectedDateMillis
 
-    val dateSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+//    val dateSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
     ModalBottomSheetLayout(
         sheetState = bottomSheetState,
@@ -322,11 +444,11 @@ fun CreateTask(navController: NavHostController) {
 //                            }
 //                        },
                     keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
-                        keyboardActions = KeyboardActions(
-                            onNext = {
-                                focus2.requestFocus()
-                            }
-                        ),
+                    keyboardActions = KeyboardActions(
+                        onNext = {
+                            focus2.requestFocus()
+                        }
+                    ),
                     singleLine = true,
                     decorationBox = { innerTextFidel ->
                         Box(
@@ -395,7 +517,7 @@ fun CreateTask(navController: NavHostController) {
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 Box( modifier = Modifier
-                        .fillMaxWidth()
+                    .fillMaxWidth()
 //                        .align(Alignment.CenterVertically)
                 ) {
                     Row ( modifier = Modifier
@@ -542,6 +664,12 @@ fun CreateTask(navController: NavHostController) {
             },
             //task
             content = { innerPadding ->
+//                taskList.add(
+//                    Taskinfo(
+//                        title = ""
+//                    )
+//                )
+
                 Column(
                     modifier = Modifier
                         .padding(innerPadding)
@@ -660,25 +788,8 @@ fun CreateTask(navController: NavHostController) {
     }
 }
 
+
 @Composable
 fun DatePickerModal() {
     TODO("Not yet implemented")
 }
-
-
-////추가 바
-//@Composable
-//fun CreatePlans() {
-//    val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
-//    ModalBottomSheetLayout(
-//        sheetState = bottomSheetState,
-//        sheetContent = {
-//            Text("Helloworld")
-//        }
-//    ) { }
-//}
-
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewCT() {
-//}
