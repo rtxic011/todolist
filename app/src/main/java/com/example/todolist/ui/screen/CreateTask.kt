@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -87,22 +88,26 @@ fun QuickDatePicker(onQuickSelect: (Long) -> Unit) {
     val options = listOf(
         "Today" to today,
         "Tomorrow" to today.plusDays(1),
-        "This weekend" to today.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)),
+        "This weekend" to today.plusWeeks(1),
         "Next weekend" to today.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)).plusWeeks(1),
     )
 
     Column(Modifier.padding(horizontal = 16.dp)) {
         options.forEach { (label, date) ->
 //            val dateStr = date.format(formatter)
-            val dateStr = when (label) {
-                "Tomorrow", "This weekend" -> "EEE"
-                else -> date.format(fullDateFormatter)
+            val formatter = when (label) {
+                "Tomorrow", "This weekend" -> DateTimeFormatter.ofPattern("EEE", Locale.ENGLISH)
+                else -> DateTimeFormatter.ofPattern("d MMM yyyy", Locale.ENGLISH)
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { onQuickSelect(date.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()) }
+                    .clickable {
+                        onQuickSelect(
+                            date.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                        )
+                    }
                     .padding(vertical = 12.dp)
             ) {
                 Icon(
@@ -118,6 +123,7 @@ fun QuickDatePicker(onQuickSelect: (Long) -> Unit) {
                 Spacer(Modifier.width(12.dp))
                 Text(label, modifier = Modifier.weight(1f))
 //                Tve file: EB%93%9C/To-do-list/app/src/main/java/com/example/todolist/ui/screen/CreateTask.kt:137:9 Unresolved reference 'QuichDatePicker'.
+                val dateStr = date.format(formatter)
                 Text(dateStr, color = Color.Gray)
             }
         }
@@ -132,7 +138,7 @@ fun DatePickerModal (
     onDateSelected: (Long?) -> Unit
     ) {
     val dataPickerState = rememberDatePickerState()
-    val scope = rememberCoroutineScope()
+//    val scope = rememberCoroutineScope()
     var showDatePicker = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
@@ -148,21 +154,74 @@ fun DatePickerModal (
         Spacer(Modifier.height(24.dp))
         DatePicker(state = dataPickerState)
         Spacer(modifier = Modifier .height(13.dp))
-        Row ( modifier = Modifier
+        Box ( modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
+            .align(Alignment.CenterHorizontally)
+            .padding(start = 35.dp, end = 35.dp )
         ) {
-            Row (modifier = Modifier
+            Box (modifier = Modifier
                 .width(155.5.dp)
                 .height(56.dp)
-                .background(Color.LightGray, shape = RoundedCornerShape(10.dp))
+                .background(Color(red = 227, green = 227, blue = 227, alpha = 255), shape = RoundedCornerShape(10.dp))
+//                .align(Alignment.CenterVertically)
+//                .align(Alignment.CenterStart)
+                .padding(start = 10.dp, end = 15.dp)
+//                .align(Alignment.Center)
             ) {
-                Text(text = "Add Time",
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        color = WhatColor
-                    ) )
-//                    modifier = Modifier .align(Alignment.CenterVertically))
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                ) {
+                    Icon( painter = painterResource(id = R.drawable.plus),
+                        contentDescription = null,
+                        tint = WhatColor,
+                        modifier = Modifier
+                            .size(24.dp)
+//                        .align(Alignment.CenterStart)
+
+                    )
+                    Spacer(modifier = Modifier.width(3.dp))
+                    Text(text = "Add Time",
+                        style = TextStyle(
+                            fontSize = 19.sp,
+                            color = WhatColor,
+                            fontWeight = FontWeight.Medium
+                        ), modifier = Modifier
+//                        .align(Alignment.CenterEnd)
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.width(16.dp))
+            Button ( onClick = { showTimePicker = true },
+                modifier = Modifier
+                    .width(155.5.dp)
+                    .height(56.dp)
+                    .background(WhatColor, shape = RoundedCornerShape(10.dp))
+                    .align(Alignment.CenterEnd)
+                    .padding(start = 10.dp, end = 15.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                ) {
+                    Icon(painter = painterResource(id = R.drawable.icon_timer),
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier
+                            .size(24.dp)
+//                            .align(Alignment.CenterStart)
+                    )
+                    Spacer(modifier = Modifier.width(3.dp))
+                    Text(text = "Reschedule",
+                        style = TextStyle(
+                            fontSize = 19.sp,
+                            color = Color.White,
+                            fontWeight = FontWeight.Medium ),
+                        modifier = Modifier
+//                            .align(Alignment.CenterEnd)
+                    )
+                }
             }
         }
     }
@@ -231,6 +290,9 @@ fun CreateTask(navController: NavHostController) {
     var selectedDate by remember { mutableStateOf<Long?>(null) }
     var showDatePicker by remember { mutableStateOf(false) }
 
+    var selectedTime by remember { mutableStateOf<LocalTime?>(null) }
+    var showTimePicker by remember { mutableStateOf(false) }
+
     val dateSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
 
     ModalBottomSheetLayout(
@@ -295,7 +357,7 @@ fun CreateTask(navController: NavHostController) {
                     modifier = Modifier
 //                        .fillMaxSize()
                         .height(20.dp)
-                    .padding(start = 24.dp)
+                        .padding(start = 24.dp)
 
                         .focusRequester(focus2),
 //                        .onKeyEvent{ keyEvent->
